@@ -4,7 +4,6 @@ import numpy as np # work with arrays, list, list images as arrays, etc.
 import csv # read the csv file
 import time # later call the kernel to sleep using time.sleep
 import sys
-#sys.path.append('/Users/nicolekim/Desktop/PS50/repo/DataAnalysis')
 sys.path.append('../DataAnalysis')
 from dashboard_function import dashboard # Data Analysis dashboard plot function
 
