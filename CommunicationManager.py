@@ -1,3 +1,6 @@
+
+"""Script for communication manager."""
+
 import os # operating systmem interface
 import glob # accesses the global directory
 import numpy as np # work with arrays, list, list images as arrays, etc.
@@ -7,9 +10,6 @@ import sys
 sys.path.append('../DataAnalysis')
 from dashboard_function import dashboard # Data Analysis dashboard plot function
 
-
-# CHANGE TO DROPBOX DIRECTORY
-path = input('input the path to your dropbox.')
 
 def getdropbox():
 	"""Checks dropbox and updates list of timestamps as integers.
@@ -38,7 +38,10 @@ def getdropbox():
 	initializes variables of means and variances 
 	While loop is for continuous checking of the dropbox for new images
 """
-reaction_id= input("What is the reaction ID?") # by default, user input is a string
+# CHANGE TO DROPBOX DIRECTORY
+path = input("Input the path to your dropbox: ")
+
+reaction_id  = input("Input the reaction ID: ") # by default, user input is a string
 
 path = os.path.join(path, str(reaction_id))
 
@@ -46,6 +49,7 @@ dirpath = os.getcwd()
 print("Current working directory %s" % dirpath)
 
 os.chdir(path)
+
 # Check current working directory.
 dirpath = os.getcwd()
 
@@ -84,16 +88,14 @@ while i==0:
 	variances_temp = np.array(variances)
 
 	print('means_temp:', means_temp)
-	dashboard(means_temp, variances_temp, image_array) #plot the information on the dashboard
+	dashboard(means_temp, variances_temp, image_array) # plot the information on the dashboard
 
-	 
 	lst_current_indices.append(last_img_index+1) # increment index by 1
-
 
 	# Data analysis plot function(output) updates the dashboard
 	time.sleep(2.)
 
-	#exit()
+	# exit()
 
 	# # Testing by Tim - JUST PAUSES PROCESSOR FOR 20s
 	# time.sleep(20)
