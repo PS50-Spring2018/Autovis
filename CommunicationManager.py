@@ -10,7 +10,7 @@ from dashboard_function import dashboard # Data Analysis dashboard plot function
 
 
 # CHANGE TO DROPBOX DIRECTORY
-path = '/Users/tim/Google Drive/Teaching/'
+path = input('input the path to your dropbox.')
 
 def getdropbox():
 	"""Checks dropbox and updates list of timestamps as integers.
