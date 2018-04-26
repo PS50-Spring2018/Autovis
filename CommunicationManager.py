@@ -41,7 +41,7 @@ def getdropbox():
 """
 reaction_id= input("What is the reaction ID?") # by default, user input is a string
 
-path = path + reaction_id
+path = os.path.join(path, str(reaction_id))
 
 dirpath = os.getcwd()
 print("Current working directory %s" % dirpath)
@@ -52,7 +52,7 @@ dirpath = os.getcwd()
 
 print("Directory changed successfully %s" % dirpath) 
 
-csvname = str('summary_' +  reaction_id + ".csv")
+csvname = str('summary_' +  str(reaction_id) + ".csv")
 csvpath = os.path.join(dirpath, csvname) # create path to access csv for specific reaction
 lst_current_indices = [0] # list of indices that have been worked with/sent to Data Analysis team
 means = [] # list of R,G,B means
@@ -92,10 +92,10 @@ while i==0:
 
 
 	# Data analysis plot function(output) updates the dashboard
-	time.sleep(0.5)
+	time.sleep(2.)
 
 	#exit()
 
-	# Testing by Tim - JUST PAUSES PROCESSOR FOR 20s
-	time.sleep(20)
-	break
+	# # Testing by Tim - JUST PAUSES PROCESSOR FOR 20s
+	# time.sleep(20)
+	# break
