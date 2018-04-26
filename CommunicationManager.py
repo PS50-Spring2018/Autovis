@@ -46,14 +46,14 @@ reaction_id  = input("Input the reaction ID: ") # by default, user input is a st
 path = os.path.join(path, str(reaction_id))
 
 dirpath = os.getcwd()
-print("Current working directory %s" % dirpath)
+print("Current working directory: %s" % dirpath)
 
 os.chdir(path)
 
 # Check current working directory.
 dirpath = os.getcwd()
 
-print("Directory changed successfully %s" % dirpath) 
+print("Directory changed successfully: %s" % dirpath) 
 
 csvname = str('summary_' +  str(reaction_id) + ".csv")
 csvpath = os.path.join(dirpath, csvname) # create path to access csv for specific reaction
