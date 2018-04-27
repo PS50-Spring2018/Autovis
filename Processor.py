@@ -46,9 +46,6 @@ class Processor:
     
     def iteration(self):
 
-        #foldername = "/Users/shreyamenon/Dropbox/%s" % self.reaction_id
-        #foldername = '/Users/tim/Google Drive/Teaching/%s' % (self.reaction_id)
-        
         #change to 1 for functionality of the webcam
         initial_img = co.snap(0)
 

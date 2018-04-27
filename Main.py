@@ -14,7 +14,7 @@ if __name__=='__main__':
     #change this to 1 to use the webcam
 
     #get user input for time, interv
-    dropbox_dir = input("What is the Dropbox path? ")
+    dropbox_dir = raw_input("What is the Dropbox path? ")
     reaction_id=input("What is the reaction ID? ")
 
     time=int(float(input("How long would you like to analyze for (s)? ")))

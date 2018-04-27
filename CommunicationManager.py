@@ -39,7 +39,7 @@ def getdropbox():
 	While loop is for continuous checking of the dropbox for new images
 """
 # CHANGE TO DROPBOX DIRECTORY
-path = input("Input the path to your dropbox: ")
+path = raw_input("Input the path to your dropbox: ")
 
 reaction_id  = input("Input the reaction ID: ") # by default, user input is a string
 
