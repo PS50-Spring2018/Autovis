@@ -56,10 +56,21 @@ class Processor:
         
         img = cv2.imread("frame%s.jpg" % name)
 
+        #img = img[:,:,::-1] # Change BGR to RGB format - Tim
+        print('***img',img[:2,:2,:])
+
         center, radius = sd.detect(sd, img)
 
+        # Adjust radius - Hannah
+        #print('***radius:', radius)
+        radius = radius - int(0.1*radius)
+
+        # Draw circle into image
         circle=cv2.circle(img,center,radius,(0,255,0),2)
+        circle = circle[:,:,::-1] #Change BGR to RGB format - Tim
         np.save(self.rxn_foldername+"/%s.npy" % (name),circle)
+
+        img = img[:,:,::-1] #Change BGR to RGB format - Tim
 
         mask=np.zeros((int(img.shape[0]),int(img.shape[1]),3))
     
@@ -111,10 +122,12 @@ class Processor:
         for row in range(mask.shape[0]):
             for col in range(mask.shape[1]):
                 if not np.isnan(mask[row, col]).all():
-                    img_nonzero.append(mask[row, col])
+                    img_nonzero.append(img[row, col])
 
         img_nonzero = np.array(img_nonzero)
 
+        print('***shape of image:', img.shape)
+        print('***shape of img_nonzero:', img_nonzero.shape)
 
         # # Goes through image and appends pixels that are in circle
         # img_nonzero = []
@@ -129,7 +142,7 @@ class Processor:
 
         mean=[np.mean(img_nonzero[:,0]), np.mean(img_nonzero[:,1]), np.mean(img_nonzero[:,2])]
         
-        var=[np.var(img_nonzero[:,0]), np.var(img_nonzero[:,1]), np.var(img_nonzero[:,2])]
+        var=[np.std(img_nonzero[:,0]), np.std(img_nonzero[:,1]), np.std(img_nonzero[:,2])]
         
         # file to save the output of the program
         csvSave.save(self.reaction_id,name,mean,var,self.rxn_foldername)

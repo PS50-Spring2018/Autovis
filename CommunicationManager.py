@@ -39,7 +39,7 @@ def getdropbox():
 	While loop is for continuous checking of the dropbox for new images
 """
 # CHANGE TO DROPBOX DIRECTORY
-path = raw_input("Input the path to your dropbox: ")
+path = input("Input the path to your dropbox: ") #raw_input
 
 reaction_id  = input("Input the reaction ID: ") # by default, user input is a string
 
@@ -105,8 +105,11 @@ while i==0:
             time.sleep(5)
             wait_once = 0
         else:
-            print("No more images are being added. Terminating job.")
-            exit()
+            # HACK TO NOT HAVE JOB TERMINATE
+            time.sleep(5)
+            pass
+            # print("No more images are being added. Terminating job.")
+            # exit()
 
 	# exit()
 
