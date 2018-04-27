@@ -62,38 +62,51 @@ means = [] # list of R,G,B means
 variances = [] # list of R,G,B variances
 
 
+wait_once = 1
+
 i = 0
 while i==0:
-	# dashboard() - initialize dashboard
-	lst_of_TS = getdropbox() 
-	
-	last_img_index = lst_current_indices[-1] # obtain the last image file that hasn't been worked with already
-	image_array = np.load(str(lst_of_TS[last_img_index])+ '.npy') # numpy array for image data
 
-	csvfile = open(csvpath, 'r')
-	reader = csv.reader(csvfile)
-	my_csv_data = list(reader) 
-	rawdata = my_csv_data[last_img_index] # grabs the mean & variance data of the current image
-	csvfile.close()
 
-	data = rawdata 
-	mean_array = [float(data[1]), float(data[2]), float(data[3])] # create array of mean RGB values
-	var_array = [float(data[4]), float(data[5]), float(data[6])]  # create array of variance of RGB values
-	# Format data for Data Analysis dashboard function 
-	means.append(mean_array)
-	variances.append(var_array)
+    try:
+    	# dashboard() - initialize dashboard
+    	lst_of_TS = getdropbox() 
+    	
+    	last_img_index = lst_current_indices[-1] # obtain the last image file that hasn't been worked with already
+    	image_array = np.load(str(lst_of_TS[last_img_index])+ '.npy') # numpy array for image data
 
-	means_temp = np.array(means)
-	#means_temp = np.array([[94, 110, 2]]) #for testing
-	variances_temp = np.array(variances)
+    	csvfile = open(csvpath, 'r')
+    	reader = csv.reader(csvfile)
+    	my_csv_data = list(reader) 
+    	rawdata = my_csv_data[last_img_index] # grabs the mean & variance data of the current image
+    	csvfile.close()
 
-	print('means_temp:', means_temp)
-	dashboard(means_temp, variances_temp, image_array) # plot the information on the dashboard
+    	data = rawdata 
+    	mean_array = [float(data[1]), float(data[2]), float(data[3])] # create array of mean RGB values
+    	var_array = [float(data[4]), float(data[5]), float(data[6])]  # create array of variance of RGB values
+    	# Format data for Data Analysis dashboard function 
+    	means.append(mean_array)
+    	variances.append(var_array)
 
-	lst_current_indices.append(last_img_index+1) # increment index by 1
+    	means_temp = np.array(means)
+    	#means_temp = np.array([[94, 110, 2]]) #for testing
+    	variances_temp = np.array(variances)
 
-	# Data analysis plot function(output) updates the dashboard
-	time.sleep(2.)
+    	print('means_temp:', means_temp)
+    	dashboard(means_temp, variances_temp, image_array) # plot the information on the dashboard
+
+    	lst_current_indices.append(last_img_index+1) # increment index by 1
+
+    	# Data analysis plot function(output) updates the dashboard
+    	time.sleep(2.)
+    except IndexError:
+
+        if wait_once:
+            time.sleep(5)
+            wait_once = 0
+        else:
+            print("No more images are being added. Terminating job.")
+            exit()
 
 	# exit()
 
