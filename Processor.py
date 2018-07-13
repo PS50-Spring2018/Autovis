@@ -8,9 +8,18 @@ import csvSave as csvSave
 import os
 import datetime
 
+
+"""
+notes
+
+var
+
+functionality
+
+"""
 class Processor:
     
-    def __init__(self, time, interv,rxn_id, dropbox_dir):
+    def __init__(self, time, interv,rxn_id, dir_file):
         
         self.reaction_id=rxn_id
     
@@ -18,13 +27,22 @@ class Processor:
 
         self.t  = time
         
-        self.dropbox_dir = dropbox_dir
-        self.rxn_foldername = os.path.join(self.dropbox_dir, str(self.reaction_id))
+        self.dir_file = dir_file
 
+        self.rxn_foldername = os.path.join(self.dir_file, str(self.reaction_id))
+
+"""
+notes
+
+var
+
+functionality
+
+"""
     def run(self):
         
 
-        #creates director for dropbox
+        #creates directory
         if not os.path.exists(self.rxn_foldername):
         
             os.makedirs(self.rxn_foldername)
@@ -34,7 +52,16 @@ class Processor:
             tempM,tempV=self.iteration()
             #time intervals between trials
             time.sleep(self.interv) 
-            
+    
+
+    """
+    notes
+
+    var
+
+    functionality
+
+    """        
             
     def getTime(self):
         #gets time
@@ -43,13 +70,22 @@ class Processor:
         time=currentDT.strftime('%Y%m%d%H%M%s')
         
         return time
-    
+        
+    """
+    notes
+
+    var
+
+    functionality
+
+    """
     def iteration(self):
+        
+        #add camera number as a user input
 
         #change to 1 for functionality of the webcam
         initial_img = co.snap(0)
 
-        #name = self.getTime()
         name= self.getTime()
 
         cv2.imwrite("frame%s.jpg" % name, initial_img)
@@ -129,7 +165,7 @@ class Processor:
         print('***shape of image:', img.shape)
         print('***shape of img_nonzero:', img_nonzero.shape)
 
-        # # Goes through image and appends pixels that are in circle
+        # # Goes through image and appends pixels that are in circle...TESTING
         # img_nonzero = []
         # for i in range(img.shape[0]):
         #     for j in range(img.shape[1]):
