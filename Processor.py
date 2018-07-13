@@ -142,7 +142,7 @@ class Processor:
 
         mean=[np.mean(img_nonzero[:,0]), np.mean(img_nonzero[:,1]), np.mean(img_nonzero[:,2])]
         
-        var=[np.std(img_nonzero[:,0]), np.std(img_nonzero[:,1]), np.std(img_nonzero[:,2])]
+        var=[np.std(img_nonzero[:,0]), np.std(img_nonzero[:,1]), np.std(i_nonzero[:,2])]
         
         # file to save the output of the program
         csvSave.save(self.reaction_id,name,mean,var,self.rxn_foldername)
