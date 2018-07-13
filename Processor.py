@@ -195,8 +195,12 @@ iterations.
         print('img_nonzero', img_nonzero)
         #gathers statistics for data group from the masked image, saves to csv for controller group
         mean=[np.mean(img_nonzero[:,0]), np.mean(img_nonzero[:,1]), np.mean(img_nonzero[:,2])]
+
         var=[np.std(img_nonzero[:,0]), np.std(img_nonzero[:,1]), np.std(img_nonzero[:,2])]
 
+        
+        # file to save the output of the program
+        #4eb037332cb384cfdb6704f1578ced29f4247a49
         csvSave.save(self.reaction_id,name,mean,var,self.rxn_foldername)
 
         return mean, var
