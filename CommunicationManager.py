@@ -62,8 +62,13 @@ dirpath = os.getcwd()
 
 print("Current working directory: %s" % dirpath)
 
+<<<<<<< HEAD
+os.chdir(path) 
+=======
 os.chdir(path)
+>>>>>>> fbdd79f032ec45e593de7a8cd4d2837d8b01557a
 # Check current working directory.
+
 dirpath = os.getcwd()
 
     # Check current working directory.
