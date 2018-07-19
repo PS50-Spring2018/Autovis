@@ -1,6 +1,19 @@
 import cv2
 import numpy as np
     
+
+
+
+"""
+Functionality: 
+
+Variables:
+    -gray: converts image to a grey image
+    -blur: blurs image
+    -thresh: performs thresholding on image
+    -cont: contours of findcontour 
+    -hierarchy: number of contour detected
+"""
 def detect(self, initial_img):
     # initialize the shape name and approximate the contour
     #image preprocessing
@@ -28,6 +41,9 @@ def detect(self, initial_img):
     ind=np.argmax(radii)
 
     return center[ind],radii[ind]
+"""
+funtionality: returns the radius and center of the minimum enclosing circle
+"""
 
 def circle(cnt):   
     #fits contour to a circle
@@ -38,3 +54,5 @@ def circle(cnt):
     radius = int(radius)
 
     return center, radius 
+
+    

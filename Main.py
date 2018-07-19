@@ -1,31 +1,38 @@
 
 from Processor import Processor
 
-# Function for displaying continuous video strea
-# n: Camera number on computer (usually n=0 for built-in webcam)
-# Exit video by clicking into video and pressing ESC key
+"""
 
+n: Camera number on computer (usually n=0 for built-in webcam)
+dir_file:
+reaction_id:
+time:
+interv:
+Processor:
+
+Exit video by clicking into video and pressing ESC key
+
+
+Notes: this function needs to run first and from the computer taking  images
+Exit video by clicking into video and pressing ESC key
+Cloud directories facilitate collab
+"""
 
 
 if __name__=='__main__':
 
-    
-    #co.stream(1)
-    #change this to 1 to use the webcam
-
     #get user input for time, interv
-    dropbox_dir = input("What is the Dropbox path? ") #raw_input
-    reaction_id=input("What is the reaction ID? ")
+    dir_file = input("What is the file path?") #raw_input 
 
-    time=int(float(input("How long would you like to analyze for (s)? ")))
+    reaction_id=input("What is the reaction ID? ") #integer or string
+
+    time=int(float(input("How long would you like to analyze for (s)? "))) #minutes?
     
     interv=int(float(input("How often do you want to check(s)? ")))
 
-    # dropbox_dir = "/Users/hannahsim/Dropbox (Aspuru-Guzik Lab)/Experiments"
-    
+    n=int(float(input("Which camera do you want to use, 0 is usually the computer's default camera? ")))
     #constructor
-    p=Processor(time,interv, reaction_id, dropbox_dir)
+    p=Processor(time,interv, reaction_id, dir_file, n)
     #this function  runs all iterations of the processor class as defined by the tine and interval
-    
     p.run()
     
