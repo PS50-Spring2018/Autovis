@@ -32,87 +32,89 @@ def getdropbox():
 	return lst_of_TS
 
 
-## Running script 
-""" Asks user for reaction ID (corresponds to input to Webcam Interface)
-	Changes working directory to the dropbox 
-	initializes variables of means and variances 
-	While loop is for continuous checking of the dropbox for new images
-"""
-# CHANGE TO DROPBOX DIRECTORY
-path = input("Input the path to your dropbox: ") #raw_input
+if __name__=="__main__":
 
-reaction_id  = input("Input the reaction ID: ") # by default, user input is a string
+    ## Running script 
+    """ Asks user for reaction ID (corresponds to input to Webcam Interface)
+    	Changes working directory to the dropbox 
+    	initializes variables of means and variances 
+    	While loop is for continuous checking of the dropbox for new images
+    """
+    # CHANGE TO DROPBOX DIRECTORY
+    path = input("Input the path to your dropbox: ") #raw_input
 
-path = os.path.join(path, str(reaction_id))
+    reaction_id  = input("Input the reaction ID: ") # by default, user input is a string
 
-dirpath = os.getcwd()
-print("Current working directory: %s" % dirpath)
+    path = os.path.join(path, str(reaction_id))
 
-os.chdir(path)
+    dirpath = os.getcwd()
+    print("Current working directory: %s" % dirpath)
 
-# Check current working directory.
-dirpath = os.getcwd()
+    os.chdir(path)
 
-print("Directory changed successfully: %s" % dirpath) 
+    # Check current working directory.
+    dirpath = os.getcwd()
 
-csvname = str('summary_' +  str(reaction_id) + ".csv")
-csvpath = os.path.join(dirpath, csvname) # create path to access csv for specific reaction
-lst_current_indices = [0] # list of indices that have been worked with/sent to Data Analysis team
-means = [] # list of R,G,B means
-variances = [] # list of R,G,B variances
+    print("Directory changed successfully: %s" % dirpath) 
 
-
-wait_once = 1
-
-i = 0
-while i==0:
+    csvname = str('summary_' +  str(reaction_id) + ".csv")
+    csvpath = os.path.join(dirpath, csvname) # create path to access csv for specific reaction
+    lst_current_indices = [0] # list of indices that have been worked with/sent to Data Analysis team
+    means = [] # list of R,G,B means
+    variances = [] # list of R,G,B variances
 
 
-    try:
-    	# dashboard() - initialize dashboard
-    	lst_of_TS = getdropbox() 
-    	
-    	last_img_index = lst_current_indices[-1] # obtain the last image file that hasn't been worked with already
-    	image_array = np.load(str(lst_of_TS[last_img_index])+ '.npy') # numpy array for image data
+    wait_once = 1
 
-    	csvfile = open(csvpath, 'r')
-    	reader = csv.reader(csvfile)
-    	my_csv_data = list(reader) 
-    	rawdata = my_csv_data[last_img_index] # grabs the mean & variance data of the current image
-    	csvfile.close()
+    i = 0
+    while i==0:
 
-    	data = rawdata 
-    	mean_array = [float(data[1]), float(data[2]), float(data[3])] # create array of mean RGB values
-    	var_array = [float(data[4]), float(data[5]), float(data[6])]  # create array of variance of RGB values
-    	# Format data for Data Analysis dashboard function 
-    	means.append(mean_array)
-    	variances.append(var_array)
 
-    	means_temp = np.array(means)
-    	#means_temp = np.array([[94, 110, 2]]) #for testing
-    	variances_temp = np.array(variances)
+        try:
+        	# dashboard() - initialize dashboard
+        	lst_of_TS = getdropbox() 
+        	
+        	last_img_index = lst_current_indices[-1] # obtain the last image file that hasn't been worked with already
+        	image_array = np.load(str(lst_of_TS[last_img_index])+ '.npy') # numpy array for image data
 
-    	print('means_temp:', means_temp)
-    	dashboard(means_temp, variances_temp, image_array) # plot the information on the dashboard
+        	csvfile = open(csvpath, 'r')
+        	reader = csv.reader(csvfile)
+        	my_csv_data = list(reader) 
+        	rawdata = my_csv_data[last_img_index] # grabs the mean & variance data of the current image
+        	csvfile.close()
 
-    	lst_current_indices.append(last_img_index+1) # increment index by 1
+        	data = rawdata 
+        	mean_array = [float(data[1]), float(data[2]), float(data[3])] # create array of mean RGB values
+        	var_array = [float(data[4]), float(data[5]), float(data[6])]  # create array of variance of RGB values
+        	# Format data for Data Analysis dashboard function 
+        	means.append(mean_array)
+        	variances.append(var_array)
 
-    	# Data analysis plot function(output) updates the dashboard
-    	time.sleep(2.)
-    except IndexError:
+        	means_temp = np.array(means)
+        	#means_temp = np.array([[94, 110, 2]]) #for testing
+        	variances_temp = np.array(variances)
 
-        if wait_once:
-            time.sleep(5)
-            wait_once = 0
-        else:
-            # HACK TO NOT HAVE JOB TERMINATE
-            time.sleep(5)
-            pass
-            # print("No more images are being added. Terminating job.")
-            # exit()
+        	print('means_temp:', means_temp)
+        	dashboard(means_temp, variances_temp, image_array) # plot the information on the dashboard
 
-	# exit()
+        	lst_current_indices.append(last_img_index+1) # increment index by 1
 
-	# # Testing by Tim - JUST PAUSES PROCESSOR FOR 20s
-	# time.sleep(20)
-	# break
+        	# Data analysis plot function(output) updates the dashboard
+        	time.sleep(2.)
+        except IndexError:
+
+            if wait_once:
+                time.sleep(5)
+                wait_once = 0
+            else:
+                # HACK TO NOT HAVE JOB TERMINATE
+                time.sleep(5)
+                pass
+                # print("No more images are being added. Terminating job.")
+                # exit()
+
+    	# exit()
+
+    	# # Testing by Tim - JUST PAUSES PROCESSOR FOR 20s
+    	# time.sleep(20)
+    	# break

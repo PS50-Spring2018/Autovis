@@ -7,6 +7,7 @@ import ShapeDetector as sd
 import csvSave as csvSave
 import os
 import datetime
+from matplotlib import pyplot as plt
 
 class Processor:
     
@@ -24,7 +25,7 @@ class Processor:
     def run(self):
         
 
-        #creates director for dropbox
+        #creates directory for dropbox
         if not os.path.exists(self.rxn_foldername):
         
             os.makedirs(self.rxn_foldername)
@@ -47,7 +48,7 @@ class Processor:
     def iteration(self):
 
         #change to 1 for functionality of the webcam
-        initial_img = co.snap(0)
+        initial_img = co.snap(1)
 
         #name = self.getTime()
         name= self.getTime()
@@ -79,38 +80,48 @@ class Processor:
         top=radius
         bottom=radius
 
-        for i in range(int(radius)):
+        #for i in range(int(radius)):
+        for i in range(img.shape[0]):
+
+            # Tim: If we are above or below circle, go to next row
+            if (i <= center[1]-radius) or (i >= center[1]+radius):
+                continue
+
+            #print('&&&&', int(radius)**2-int(i)**2)
             delta=int(np.sqrt(int(radius)**2-int(i)**2))
             
+        
             left=delta
             right=delta
-            up=i
-            down=i
-            #this is used to detect boundaries and ensure that there is no boudary jumping
-            if mask.shape[0]<center[0]+right:
+            # up=i
+            # down=i
+            ## this is used to detect boundaries and ensure that there is no boudary jumping
+            # if mask.shape[0]<center[0]+right:
                 
-                right=-center[0]+mask.shape[0]-1
+            #     right=-center[0]+mask.shape[0]-1
 
-            if 0>center[0]-left:
+            # if 0>center[0]-left:
                 
-                left=center[0]
+            #     left=center[0]
             
-            if mask.shape[1]<center[1]+down:
+            # if mask.shape[1]<center[1]+down:
                 
-                down=-center[1]+mask.shape[1]-1
+            #     down=-center[1]+mask.shape[1]-1
             
-            if 0>center[1]-up:
+            # if 0>center[1]-up:
                 
-                up=center[1]
+            #     up=center[1]
             
             #pythagorean
-            delta=int(np.sqrt(int(radius)**2-int(i)**2))
+            #delta=int(np.sqrt(int(radius)**2-int(i)**2))
             
             x=np.arange(int(center[0])-left,int(center[0])+right)
 
-            mask[x,(center[1]-up),:] = np.nan
+            #mask[x,(center[1]-up),:] = np.nan
+            #mask[i,x,:] = np.nan
+            mask[i,x,:] = [1,1,1]
 
-            mask[x,(center[1]+down),:] = np.nan
+            #mask[x,(center[1]+down),:] = np.nan
         
         # # Applies mask
         # img_masked = img * mask
@@ -118,10 +129,19 @@ class Processor:
         mask = np.array(mask)
         img_nonzero = []
 
+        plt.figure(1)
+        plt.imshow(mask)
+
+        plt.figure(2)
+        plt.imshow(img)
+        plt.show()
+
+
         # Goes through image and appends pixels that are in circle
         for row in range(mask.shape[0]):
             for col in range(mask.shape[1]):
                 if not np.isnan(mask[row, col]).all():
+                #if not all(mask[row,col]==[0,0,0])
                     img_nonzero.append(img[row, col])
 
         img_nonzero = np.array(img_nonzero)
