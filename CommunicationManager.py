@@ -6,20 +6,21 @@ import glob # accesses the global directory
 import numpy as np # work with arrays, list, list images as arrays, etc.
 import csv # read the csv file
 import time # later call the kernel to sleep using time.sleep
-from dashboard_function import dashboard # Data Analysis dashboard plot function
+from Dashboard import dashboard # Data Analysis dashboard plot function
 import sys
 #creates a datanalysis folder in the current directory
 sys.path.append('../DataAnalysis')
 
-"""Checks dropbox and updates list of timestamps as integers.
-   Note: Assumes we're inside the dropbox directory.
+"""Checks image directory and updates list of timestamps as integers.
+   Note: Assumes we're inside the image directory.
 
     Vars: 
         name - split file name into list of 2 string elements, "timestamp" + ".npy"  
     Returns:
         lst_of_TS - list of timestamps (as integers not filenames)
 """
-def getdropbox():
+
+def gettimestamp():
 	
     lst_of_TS = []
 
@@ -41,9 +42,9 @@ def getdropbox():
 ## Running script 
 """ Functionality:
     i) Asks user for reaction ID (corresponds to input to Webcam Interface)
-	ii) Changes working directory to the dropbox 
+	ii) Changes working directory 
 	iii) initializes variables of means and variances 
-	iv) While loop is for continuous checking of the dropbox for new images
+	iv) While loop is for continuous checking for new images
 
     Vars: 
     path - path of the images
@@ -52,7 +53,7 @@ def getdropbox():
 
 """
 # Change to directory
-path = input("Input the path to your dropbox: ")
+path = input("Input the path to the image directory: ")
 # by default, user input is a string
 reaction_id  = input("Input the reaction ID: ")
 
@@ -62,17 +63,11 @@ dirpath = os.getcwd()
 
 print("Current working directory: %s" % dirpath)
 
-<<<<<<< HEAD
-os.chdir(path) 
-=======
 os.chdir(path)
->>>>>>> fbdd79f032ec45e593de7a8cd4d2837d8b01557a
 # Check current working directory.
 
 dirpath = os.getcwd()
 
-    # Check current working directory.
-    dirpath = os.getcwd()
 
 csvname = str('summary_' +  str(reaction_id) + ".csv")
 # create path to access csv for specific reaction
@@ -87,44 +82,40 @@ variances = []
 
 wait_once = 1
 
-try:
-	# dashboard() - initialize dashboard
-	lst_of_TS = getdropbox() 
+i = 0
+while i==0:
 
-	last_img_index = lst_current_indices[-1] 
-	image_array = np.load(str(lst_of_TS[last_img_index])+ '.npy') 
+   try:
+      
+        # dashboard() - initialize dashboard
+    lst_of_TS = gettimestamp() 
+        
+       last_img_index = lst_current_indices[-1]
+       image_array = np.load(str(lst_of_TS[last_img_index])+ '.npy')
 
-    try:
-    	# dashboard() - initialize dashboard
-    	lst_of_TS = getdropbox() 
-    	
-    	last_img_index = lst_current_indices[-1] # obtain the last image file that hasn't been worked with already
-    	image_array = np.load(str(lst_of_TS[last_img_index])+ '.npy') # numpy array for image data
+       csvfile = open(csvpath, 'r')
+       reader = csv.reader(csvfile)
+       my_csv_data = list(reader)
+       data = my_csv_data[last_img_index] # grabs the mean & variance data of the current image
+       csvfile.close()
 
-    ######why is this changed from rawdata???
-	data = rawdata 
 
-	mean_array = [float(data[1]), float(data[2]), float(data[3])]
-	var_array = [float(data[4]), float(data[5]), float(data[6])]  
-	# Format data for Data Analysis dashboard function 
-	means.append(mean_array)
-	variances.append(var_array)
 
-    	data = rawdata 
+
     	mean_array = [float(data[1]), float(data[2]), float(data[3])] # create array of mean RGB values
     	var_array = [float(data[4]), float(data[5]), float(data[6])]  # create array of variance of RGB values
     	# Format data for Data Analysis dashboard function 
     	means.append(mean_array)
     	variances.append(var_array)
 
-	print('means_temp:', means_temp)
-    # plot the information on the dashboard
-	dashboard(means_temp, variances_temp, image_array) 
-   
-	lst_current_indices.append(last_img_index+1) 
+    	print('means_temp:', means_temp)
+        # plot the information on the dashboard
+    	dashboard(means_temp, variances_temp, image_array) 
+       
+    	lst_current_indices.append(last_img_index+1) 
 
-	# Data analysis plot function(output) updates the dashboard
-	time.sleep(2.)
+    	# Data analysis plot function(output) updates the dashboard
+    	time.sleep(2.)
 
 except IndexError:
 
