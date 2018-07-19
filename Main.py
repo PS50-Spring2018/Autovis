@@ -2,7 +2,6 @@
 from Processor import Processor
 
 """
-
 n: Camera number on computer (usually n=0 for built-in webcam)
 dir_file:
 reaction_id:

@@ -22,34 +22,33 @@ functionality: processsor is the class that contains all of the functions to exe
 and the detection of images and the 
 
 """
-class Processor:
+class Image_Capture:
     
     def __init__(self, time, interv,rxn_id, dir_file,n):
-        
         self.reaction_id=rxn_id
-    
+
         self.interv=interv
 
         self.t  = time
-        
+
         self.dir_file = dir_file
 
         self.rxn_foldername = os.path.join(self.dir_file, str(self.reaction_id))
 
         self.n=n
 
-"""
+    """
 
 
-var 
-    tempM-temporary mean, returned for testing
-    tempV-variance, used for testing
+    var 
+        tempM-temporary mean, returned for testing
+        tempV-variance, used for testing
 
-functionality: creates a directory if it does not currently exist for output images. 
-Runs the snapshot/detection method at regular intervals for the desired number of 
-iterations. 
+    functionality: creates a directory if it does not currently exist for output images. 
+    Runs the snapshot/detection method at regular intervals for the desired number of 
+    iterations. 
 
-"""
+    """
     def run(self):
         
 
@@ -63,7 +62,7 @@ iterations.
             tempM,tempV=self.iteration()
             #time intervals between trials
             time.sleep(self.interv) 
-    
+
 
     """
     var
@@ -73,7 +72,7 @@ iterations.
     functionality: returns time for image naming purposes
     """        
 
-            
+                
     def getTime(self):
         #gets time
         currentDT = datetime.datetime.now()
@@ -81,7 +80,7 @@ iterations.
         time=currentDT.strftime('%Y%m%d%H%M%s')
         
         return time
-        
+    
     """
     var
         initial_img - the raw image, with colr, from the webcam
@@ -119,7 +118,7 @@ iterations.
         img = img[:,:,::-1] #Change BGR to RGB format - Tim
 
         mask=np.zeros((int(img.shape[0]),int(img.shape[1]),3))
-    
+
         #the extreme bounds of the circle
         left=radius
         right=radius
