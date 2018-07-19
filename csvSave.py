@@ -1,4 +1,14 @@
 import csv as csv
+
+'''
+Function: updates the csv file in the according dropbox folder 
+Input: 
+	rxnID 
+	file
+	mean 
+	variance 
+	folderwoID 
+'''
     
 def save(rxnID, file, mean, variance, folderwoID):
     

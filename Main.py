@@ -20,18 +20,17 @@ Cloud directories facilitate collab
 
 
 if __name__=='__main__':
+	#get user input for time, interv
+	dir_file = input("What is the file path?") #raw_input 
 
-    #get user input for time, interv
-    dir_file = input("What is the file path?") #raw_input 
+	reaction_id=input("What is the reaction ID? ") #integer or string
 
-    reaction_id=input("What is the reaction ID? ") #integer or string
+	time=int(float(input("How long would you like to analyze for (s)? "))) #minutes?
+	
+	interv=int(float(input("How often do you want to check(s)? ")))
 
-    time=int(float(input("How long would you like to analyze for (s)? "))) #minutes?
-    
-    interv=int(float(input("How often do you want to check(s)? ")))
-
-    #constructor
-    p=Processor(time,interv, reaction_id, dir_file)
-    #this function  runs all iterations of the processor class as defined by the tine and interval
-    p.run()
-    
+	#constructor
+	p=Processor(time,interv, reaction_id, dir_file)
+	#this function  runs all iterations of the processor class as defined by the tine and interval
+	p.run()
+	

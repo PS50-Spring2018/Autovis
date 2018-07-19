@@ -48,9 +48,9 @@ path = os.path.join(path, str(reaction_id))
 dirpath = os.getcwd()
 print("Current working directory: %s" % dirpath)
 
-os.chdir(path)
-
+os.chdir(path) 
 # Check current working directory.
+
 dirpath = os.getcwd()
 
 print("Directory changed successfully: %s" % dirpath) 
