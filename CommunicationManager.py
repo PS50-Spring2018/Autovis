@@ -56,17 +56,23 @@ path = input("Input the path to your dropbox: ")
 # by default, user input is a string
 reaction_id  = input("Input the reaction ID: ")
 
-path = os.path.join(path, str(reaction_id))
+    reaction_id  = input("Input the reaction ID: ") # by default, user input is a string
 
 dirpath = os.getcwd()
 
 print("Current working directory: %s" % dirpath)
 
+<<<<<<< HEAD
+os.chdir(path) 
+=======
 os.chdir(path)
+>>>>>>> fbdd79f032ec45e593de7a8cd4d2837d8b01557a
 # Check current working directory.
+
 dirpath = os.getcwd()
 
-print("Directory changed successfully: %s" % dirpath) 
+    # Check current working directory.
+    dirpath = os.getcwd()
 
 csvname = str('summary_' +  str(reaction_id) + ".csv")
 # create path to access csv for specific reaction
@@ -78,46 +84,52 @@ means = []
 # list of R,G,B variances
 variances = []
 
+
 wait_once = 1
 
-i = 0
-while i==0:
+try:
+	# dashboard() - initialize dashboard
+	lst_of_TS = getdropbox() 
+
+	last_img_index = lst_current_indices[-1] 
+	image_array = np.load(str(lst_of_TS[last_img_index])+ '.npy') 
 
     try:
     	# dashboard() - initialize dashboard
     	lst_of_TS = getdropbox() 
-    
-    	last_img_index = lst_current_indices[-1] 
-    	image_array = np.load(str(lst_of_TS[last_img_index])+ '.npy') 
+    	
+    	last_img_index = lst_current_indices[-1] # obtain the last image file that hasn't been worked with already
+    	image_array = np.load(str(lst_of_TS[last_img_index])+ '.npy') # numpy array for image data
 
-    	csvfile = open(csvpath, 'r')
-    	reader = csv.reader(csvfile)
-    	my_csv_data = list(reader) 
-    	rawdata = my_csv_data[last_img_index] # grabs the mean & variance data of the current image
-    	csvfile.close()
+    ######why is this changed from rawdata???
+	data = rawdata 
 
-        ######why is this changed from rawdata???
+	mean_array = [float(data[1]), float(data[2]), float(data[3])]
+	var_array = [float(data[4]), float(data[5]), float(data[6])]  
+	# Format data for Data Analysis dashboard function 
+	means.append(mean_array)
+	variances.append(var_array)
+
     	data = rawdata 
-
-    	mean_array = [float(data[1]), float(data[2]), float(data[3])]
-    	var_array = [float(data[4]), float(data[5]), float(data[6])]  
+    	mean_array = [float(data[1]), float(data[2]), float(data[3])] # create array of mean RGB values
+    	var_array = [float(data[4]), float(data[5]), float(data[6])]  # create array of variance of RGB values
     	# Format data for Data Analysis dashboard function 
     	means.append(mean_array)
     	variances.append(var_array)
 
-    	means_temp = np.array(means)
-    	#means_temp = np.array([[94, 110, 2]]) #for testing
-    	variances_temp = np.array(variances)
+	print('means_temp:', means_temp)
+    # plot the information on the dashboard
+	dashboard(means_temp, variances_temp, image_array) 
+   
+	lst_current_indices.append(last_img_index+1) 
 
-    	print('means_temp:', means_temp)
-        # plot the information on the dashboard
-    	dashboard(means_temp, variances_temp, image_array) 
-       
-    	lst_current_indices.append(last_img_index+1) 
+	# Data analysis plot function(output) updates the dashboard
+	time.sleep(2.)
+
+except IndexError:
 
     	# Data analysis plot function(output) updates the dashboard
     	time.sleep(2.)
-
     except IndexError:
 
         if wait_once:
