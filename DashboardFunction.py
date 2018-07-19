@@ -7,24 +7,29 @@ import numpy as np
 import colorsys as cs
 import cv2
 
+"""
+	the dashboard function is run continuously to display and update a dashboard containing plots that are relevant to the experiment
+	it takes the following inputs:
+	
+	Vars:
+	mean_RGB - 3 x N dimensional numpy array of ** all-time ** mean r, g, and b values for each image
+	var_RGB - a 3 x N dimensional numpy array of ** all-time ** variances in r, g, and b values for each image
+	image_array - a numpy array representing the latest image of the beaker
+	N - the number of points used to construct the color wheel and intensity bar
+
+	Notes:
+	1) we highly recommend using no larger than N = 200, as this is will add significant computation time to each calling of the function
+	and the visual difference is negligible
+	2) one way of accomplishing the proper format for mean_RGB and var_RGB is to create an empty list for each and for each new image,
+	append the mean RGB values and RGB variances for that image, and finally convert to a numpy array
+	the following section plots the color wheel
+"""
+
 def dashboard(mean_RGB, var_RGB, image_array, N =100):
-	# the dashboard function is run continuously to display and update a dashboard containing plots that are relevant to the experiment
-	# it takes the following inputs:
 
-	# mean_RGB is a 3 x N dimensional numpy array of ** all-time ** mean r, g, and b values for each image
-	# var_RGB is a 3 x N dimensional numpy array of ** all-time ** variances in r, g, and b values for each image
-	# image_array is a numpy array representing the latest image of the beaker
-	# N is the number of points used to construct the color wheel and intensity bar
-
-	# notes:
-	# 1) we highly recommend using no larger than N = 200, as this is will add significant computation time to each calling of the function
-	# and the visual difference is negligible
-	# 2) one way of accomplishing the proper format for mean_RGB and var_RGB is to create an empty list for each and for each new image,
-	# append the mean RGB values and RGB variances for that image, and finally convert to a numpy array
-
-	# the following section plots the color wheel
+	# radii and thetas together specify every polar coordinate at which the color will be specified
 	radii = np.linspace(0,1,N)
-	thetas = np.linspace(0,2*np.pi,N) # radii and thetas together specify every polar coordinate at which the color will be specified
+	thetas = np.linspace(0,2*np.pi,N) 
 
 	# initializing lists for the following section
 	t = [] 
@@ -35,16 +40,23 @@ def dashboard(mean_RGB, var_RGB, image_array, N =100):
 	# the h and s values, respectively, at that point; the v value is 1 for every point; together these values specify a color
 	# however, theta must be rescaled to 0-1 and the hsv values as a whole must be converted to rgb values scaled 0-1 in order
 	# to be taken as an input for the color specification in the scatterplot that follows
-	for theta in thetas: #nested for-loop
+	
+	for theta in thetas: 
+
 		for radius in radii:
+
 			t.append(theta)
+
 			r.append(radius)
-			c.append(cs.hsv_to_rgb(theta/(2*np.pi),radius,1)) #rescale theta to 0-1
+			#rescale theta to 0-1
+			c.append(cs.hsv_to_rgb(theta/(2*np.pi),radius,1)) 
 			# 1 at the end corresponds to intensity
 
 	# the following section plots the color bar
+
+	# x_dim and y_dim together specify every cartesian coordinate at which the intensity will be specified
 	x_dim = np.linspace(0,1,N)
-	y_dim = np.linspace(0,1,N) # x_dim and y_dim together specify every cartesian coordinate at which the intensity will be specified
+	y_dim = np.linspace(0,1,N) 
 
 	# initializing lists for the following section
 	x = []
@@ -55,12 +67,16 @@ def dashboard(mean_RGB, var_RGB, image_array, N =100):
 	# for every coordinate pair in the cartesian space, append the x and y values for that point, and use the x value to specify
 	# a v value at that point; h and s values are 0 at every point; together these values specify a color
 	# however, these values must be converted to rgb values in order to be taken as an input for the plot that follows 
+	
 	for x_val in x_dim:
+	
 		for y_val in y_dim:
+	
 			x.append(x_val)
 			y.append(y_val)
-			color.append(cs.hsv_to_rgb(0, 0, 1-x_val)) # x_val subtracted from 1 in order to make the plot light to dark as opposed to 
-			# dark to light (which is just convention for v values in hsv)
+			# x_val subtracted from 1 in order to make the plot light to dark as opposed to # dark to light (which is just convention for v values in hsv)
+			color.append(cs.hsv_to_rgb(0, 0, 1-x_val)) 
+			
 
 	# Turn interactive plotting on
 	plt.ion()
@@ -104,7 +120,9 @@ def dashboard(mean_RGB, var_RGB, image_array, N =100):
 
 	# plots the mean r, g, and b values over the history of the experiment with errorbars representing variances in those values
 	line_colors = ['r','g','b']
+
 	for i, c in enumerate(line_colors):
+	
 		lines.errorbar(range(len(mean_RGB)),mean_RGB[:,i],yerr=var_RGB[:,i],color=c)
 
 	# displays the latest image of the beaker
@@ -119,6 +137,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N =100):
 	# for each RGB triplet, rescale to 0-1 (for the cs.rgb_to_hsv function), convert to hsv (scaled 0-1), rescale theta to 0-2pi,
 	# then append to relevant lists
 	for color in mean_RGB:
+
 		r, g, b = color[0]/255, color[1]/255, color[2]/255
 		hsv = cs.rgb_to_hsv(r,g,b)
 		t_val.append(hsv[0]*2*np.pi)
@@ -127,9 +146,11 @@ def dashboard(mean_RGB, var_RGB, image_array, N =100):
 
 	# plots course through color and intensity spaces
 	colorwheel.plot(t_val,r_val, 'k-')
-	colorwheel.plot(t_val[-1],r_val[-1], 'ko') # adds last point as a circle to show where the course ends
+	# adds last point as a circle to show where the course ends
+	colorwheel.plot(t_val[-1],r_val[-1], 'ko') 
 	colorbar.plot(1-np.array(v_val),y_val,'y-')
-	colorbar.plot(1-v_val[-1],y_val[-1],'yo') # adds last point as a circle to show where the course ends
+	 # adds last point as a circle to show where the course ends
+	colorbar.plot(1-v_val[-1],y_val[-1],'yo')
 
 	# sets up lists to show history of average colors in the next section
 	x_squares = range(len(mean_RGB))
@@ -138,8 +159,12 @@ def dashboard(mean_RGB, var_RGB, image_array, N =100):
 
 	# divides a plot into horizontal segments according to the number of past mean colors to display
 	for i in range(1,len(mean_RGB)+1):
+		
 		squares.plot([i-1+0.49,i-0.49], [0,0], '-', linewidth=100, c=c_squares[i-1])
-
-	plt.tight_layout() # ensures that plots don't overlap on the dashboard
+ 	
+ 	# ensures that plots don't overlap on the dashboard
+	plt.tight_layout()
+	
 	plt.show()
-	plt.pause(0.05) # hack: rest of master script is run while the plot "waits" to be called again
+	# hack: rest of master script is run while the plot "waits" to be called again
+	plt.pause(0.05) 
