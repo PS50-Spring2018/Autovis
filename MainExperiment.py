@@ -1,25 +1,42 @@
 
 from ImageCapture import ImageCapture
 
-"""
-n: Camera number on computer (usually n=0 for built-in webcam)
-dir_file:
-reaction_id:
-time:
-interv:
-Processor:
-
-Exit video by clicking into video and pressing ESC key
 
 
-Notes: this function needs to run first and from the computer taking  images
-Exit video by clicking into video and pressing ESC key
-Cloud directories facilitate collab
-"""
+
+
+
+
+
+
 
 
 if __name__=='__main__':
-	#get user input for time, interv
+	""" 
+    Functionality 
+    ---------------------------------------------------------
+    get user input for time, intervals and creates instances of analyzer function
+    
+    Notes: this function needs to run first and from the computer taking  images
+	Exit video by clicking into video and pressing ESC key
+	Cloud directories facilitate collab
+	Exit video by clicking into video and pressing ESC key
+
+    Vars
+    ---------------------------------------------------------
+    n 			|	Camera number on computer (usually n=0 for built-in webcam)
+	dir_file	|	directory of image files
+	reaction_id	|	reaction id
+	time		|	time to analyze
+	interv 		|	interval between image captures
+	Processor 	|	the processor class instance
+   
+    Returns
+    ---------------------------------------------------------   
+    """ 
+
+
+	
 	dir_file = input("What is the file path?") #raw_input 
 
 	reaction_id=input("What is the reaction ID? ") #integer or string

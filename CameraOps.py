@@ -5,6 +5,20 @@ import numpy as np
 
 def stream(n=0):
 
+    """ 
+    Functionality 
+    ---------------------------------------------------------
+    streams webcam to a window
+
+    Vars
+    ---------------------------------------------------------
+    n       |   number used to ID camera to be used
+   
+    Returns
+    ---------------------------------------------------------
+       
+    """
+
     cv2.namedWindow("preview")
     
     vc = cv2.VideoCapture(n)
@@ -32,11 +46,25 @@ def stream(n=0):
             break
 
     cv2.destroyWindow("preview")
+
     vc.release()
     
-# Function taking a single picture from webcam and returning it in array form
-# n: Camera number on computer (usually n=0 for built-in webcam)
+
 def snap(n=0):
+
+    """ 
+    Functionality 
+    ---------------------------------------------------------
+    snaps an instant of the webcam and displays
+
+    Vars
+    ---------------------------------------------------------
+    n            |   number used to ID camera to be used
+   
+    Returns
+    ---------------------------------------------------------
+       
+    """
     vc = cv2.VideoCapture(n)
     
     if vc.isOpened(): # try to get the first frame
@@ -55,19 +83,24 @@ def snap(n=0):
 
     return frame
 
-"""
-Functionality: 
 
-Variables:
-    -gray: converts image to a grey image
-    -blur: blurs image
-    -thresh: performs thresholding on image
-    -cont: contours of findcontour 
-    -hierarchy: number of contour detected
-"""
 def detect(self, initial_img):
-    # initialize the shape name and approximate the contour
-    #image preprocessing
+
+    """ 
+    Functionality 
+    ---------------------------------------------------------
+    thresholds image from webcam, fits contours
+
+    Vars
+    ---------------------------------------------------------
+    initial_img |   Inputted image from the webcam 
+   
+    Returns
+    ---------------------------------------------------------
+    center[ind] |   the center of the largest circle detected
+    radii[ind]  |   the radiius of the largest circle detected    
+    """
+    
     gray = cv2.cvtColor(initial_img, cv2.COLOR_BGR2GRAY)
     
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
@@ -92,12 +125,24 @@ def detect(self, initial_img):
     ind=np.argmax(radii)
 
     return center[ind],radii[ind]
-"""
-funtionality: returns the radius and center of the minimum enclosing circle
-"""
 
-def circle(cnt):   
-    #fits contour to a circle
+
+def circle(cnt):  
+
+    """ 
+    Functionality 
+    ---------------------------------------------------------
+    fits contour to a circle
+
+    Vars
+    ---------------------------------------------------------
+    cnt         |   inputted contour
+    Returns
+    ---------------------------------------------------------
+    center      |   the center of the largest circle detected
+    radii       |   the radiius of the largest circle detected    
+    """ 
+
     (x,y),radius = cv2.minEnclosingCircle(cnt)
 
     center = (int(x),int(y))

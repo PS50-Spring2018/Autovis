@@ -11,16 +11,20 @@ import sys
 #creates a datanalysis folder in the current directory
 sys.path.append('../DataAnalysis')
 
-"""Checks image directory and updates list of timestamps as integers.
-   Note: Assumes we're inside the image directory.
-
-    Vars: 
-        name - split file name into list of 2 string elements, "timestamp" + ".npy"  
-    Returns:
-        lst_of_TS - list of timestamps (as integers not filenames)
-"""
 
 def gettimestamp():
+    """ 
+    Functionality 
+    ---------------------------------------------------------
+    
+    Vars
+    ---------------------------------------------------------
+   
+    Returns
+    ---------------------------------------------------------   
+    """ 
+
+
 	
     lst_of_TS = []
 
@@ -39,25 +43,30 @@ def gettimestamp():
 	return lst_of_TS
 
 
-## Running script 
-""" Functionality:
+
+""" 
+    Functionality 
+    ---------------------------------------------------------
     i) Asks user for reaction ID (corresponds to input to Webcam Interface)
-	ii) Changes working directory 
-	iii) initializes variables of means and variances 
-	iv) While loop is for continuous checking for new images
+    ii) Changes working directory 
+    iii) initializes variables of means and variances 
+    iv) While loop is for continuous checking for new images
+    
 
-    Vars: 
-    path - path of the images
-    means - retrieved means from csv 
-    variances - retrieved variances from csv
+    Vars
+    ---------------------------------------------------------
+    path             |   user path
+    reaction_id      |   reaction id for different reactions
+    csvpath          |   path to csv statistics file 
 
+    Returns
+    ---------------------------------------------------------
+   
 """
 # Change to directory
 path = input("Input the path to the image directory: ")
 # by default, user input is a string
 reaction_id  = input("Input the reaction ID: ")
-
-    reaction_id  = input("Input the reaction ID: ") # by default, user input is a string
 
 dirpath = os.getcwd()
 
