@@ -8,76 +8,55 @@ import os
 import datetime
 from matplotlib import pyplot as plt
 
-
-"""
-variables: 
-    reaction_id - identifier for reaction 
-    interv - time between pictures being taken
-    t- total time of the experiment
-    dir_file - the path of the destination of the picture files
-    n - camera ID
-
-functionality: processsor is the class that contains all of the functions to execute the gather or images
-and the detection of images and the 
-
-"""
 class ImageCapture:
-	def __init__(self, time, interv,rxn_id, dir_file):
-		
+    """
+    ImageCapture is the class the contains of all of the functions required to gather images and 
+    to identify shapes in the images. 
+
+    Parameters: 
+        reaction_id: string | Reaction identifier. 
+        interv: float | Time between pictures being taken.
+        t: float| Total time of the experiment.
+        dir_file: string | The path of the destination of the picture files.
+       
+    Notes:
+
+    """
+	def __init__(self, time, interv,rxn_id, dir_file, n):
+        '''
+        Initializes the ImageCapture class.
+        '''
 		self.reaction_id=rxn_id
-	
 		self.interv=interv
-
 		self.t  = time
-		
 		self.dir_file = dir_file
-
 		self.rxn_foldername = os.path.join(self.dir_file, str(self.reaction_id))
-	'''
-	notes: Processor Class
-	var 
-	functionality
-	'''
-
+        self.n = n
 
 	def run(self):
-		#creates directory
+        '''
+        Creates the reaction directory, if it does not already exists, and starts the process to take images
+        for the set amount of time and iterations. 
+        '''
 		if not os.path.exists(self.rxn_foldername):
-		
-			os.makedirs(self.rxn_foldername)
+			os.makedirs(self.rxn_foldername) #makes a reaction directory
 
-		for i in range(int(self.t/self.interv)):
-			#runs a single image process
-			tempM,tempV=self.iteration()
-			#time intervals between trials
-			time.sleep(self.interv) 
-	
-
-	"""
-	notes
-
-	var
-
-	functionality
-
-	"""        
+		for i in range(int(self.t/self.interv)): 
+			tempM,tempV=self.iteration() #runs a single image process
+			time.sleep(self.interv) #time intervals between trials
 			
 	def getTime(self):
-		#gets time
-		currentDT = datetime.datetime.now()
-		#formats
-		time=currentDT.strftime('%Y%m%d%H%M%s')
-		
+		'''
+        Gets the current time and saves it as an unique string
+
+        Returns: 
+            time: string | The time formatted YearMonthDayHourMinuteSecond, Ex: 20180721065911
+        '''
+		currentDT = datetime.datetime.now() 
+		time=currentDT.strftime('%Y%m%d%H%M%s') #formats the time 
+
 		return time
 		
-	"""
-	notes
-
-	var
-
-	functionality
-
-	"""
 	def iteration(self):
 		
 		#add camera number as a user input
@@ -184,21 +163,7 @@ class ImageCapture:
 		self.save(self.reaction_id,name,mean,var,self.rxn_foldername)
 
 		return mean, var
->>>>>>> db0fbf9bdf4234490aa9ffd97e8381b46f4a0f9d
     
-    def __init__(self, time, interv,rxn_id, dir_file,n):
-        self.reaction_id=rxn_id
-
-        self.interv=interv
-
-        self.t  = time
-
-        self.dir_file = dir_file
-
-        self.rxn_foldername = os.path.join(self.dir_file, str(self.reaction_id))
-
-        self.n=n
-
     """
 
 
@@ -377,18 +342,15 @@ class ImageCapture:
     
     def save(self,rxnID, file, mean, variance, folderwoID):
     '''
-    Input: 
-        rxnID 
-        file
-        mean 
-        variance 
-        folderwoID 
-                        
-    Functionality: saves csv file, writes statistics to it. 
+    Saves csv file and writes statistics to it. 
+
+    Parameters: 
+        rxnID: 
+        file:
+        mean:
+        variance: 
+        folderwoID:  
     '''
-
         with open(folderwoID+'/summary_%s.csv' % (rxnID),'a+') as csvfile:
-            
             swriter = csv.writer(csvfile)
-
             swriter.writerow([file, mean[0],mean[1],mean[2], variance[0],variance[1],variance[2]])
