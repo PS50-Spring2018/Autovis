@@ -1,48 +1,28 @@
-
-"""Script for communication manager."""
-
-import os # operating systmem interface
-import glob # accesses the global directory
+import os # operating system interface
+import glob # access the global directory
 import numpy as np # work with arrays, list, list images as arrays, etc.
-import csv # read the csv file
-import time # later call the kernel to sleep using time.sleep
-from Dashboard import dashboard # Data Analysis dashboard plot function
+import csv # read csv files
+import time # call the kernel to sleep using time.sleep
+from Dashboard import dashboard # data analysis dashboard function
 import sys
-#creates a datanalysis folder in the current directory
-sys.path.append('../DataAnalysis')
 
+sys.path.append('../DataAnalysis') # creates a folder called DataAnalysis in the current directory
 
 def gettimestamp():
     """ 
-    Functionality 
-    ---------------------------------------------------------
-    gets list of images captured
+    Obtain list of images captured.
     
-    Returns
-    ---------------------------------------------------------
-    lst_of_TS  |    obtains list of timestamps from the directory, commpares to see if new files were added      
+    Returns:
+    lst_of_TS: array | list of timestamps from the directory; compare these to check if new files were added      
     """ 
-
-
-	
     lst_of_TS = []
-
-	for file in glob.glob("*.npy"): # "for every .npy file in the current directory "
-
+	for file in glob.glob("*.npy"): # access every .npy file in the current directory
 		name = file.split('.') 
-		# grab the timestamp portion 
-        timestamp_str = name[0] 
-		# convert the timestamp string into an integer
-        timestamp_int = int(timestamp_str) 
-        # append to list of timestamps
-        lst_of_TS.append(timestamp_int) 
-    # sorts the list of timestamps in increasing order
-	lst_of_TS.sort() 
-
+        timestamp_str = name[0] # grab the timestamp portion 
+        timestamp_int = int(timestamp_str) # convert the timestamp string into an integer
+        lst_of_TS.append(timestamp_int) # append to list of timestamps
+	lst_of_TS.sort() # sort the list of timestamps in increasing order
 	return lst_of_TS
-
-
-
 """ 
     Functionality 
     ---------------------------------------------------------
