@@ -5,6 +5,7 @@ import seaborn as sns
 import numpy as np
 import colorsys as cs
 import cv2
+
 def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	'''
 	Display a dashboard containing plots that are relevant to the experiment.
