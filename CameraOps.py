@@ -20,33 +20,24 @@ def stream(n=0):
     """
 
     cv2.namedWindow("preview")
-    
     vc = cv2.VideoCapture(n)
 
     if vc.isOpened(): # try to get the first frame
-    
         rval, frame = vc.read()
-    
         print('frame\n', frame[0][:])
     
     else:
-    
         rval = False
-    
         frame = None
 
     while rval:
-    
         cv2.imshow("preview", frame)
-    
         rval, frame = vc.read()
     
         if key == 27: # exit on ESC
-    
             break
 
     cv2.destroyWindow("preview")
-
     vc.release()
     
 
@@ -66,21 +57,18 @@ def snap(n=0):
        
     """
     vc = cv2.VideoCapture(n)
-    
     if vc.isOpened(): # try to get the first frame
         
         #key = cv2.waitKey(50)
 
         rval, frame = vc.read()
-        #was added to save the image as 
-        cv2.imwrite("frame%d.jpg" % n, frame) 
+        cv2.imwrite("frame%d.jpg" % n, frame) #save the image as jpg 
 
     else:
         rval = False
         frame = None
 
     vc.release()
-
     return frame
 
 
@@ -102,27 +90,21 @@ def detect(self, initial_img):
     """
     
     gray = cv2.cvtColor(initial_img, cv2.COLOR_BGR2GRAY)
-    
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
-    
     thresh = cv2.threshold(blur, 60, 255, cv2.THRESH_BINARY_INV)[1]
-    #finds contours
-    _, cont,hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE)
+    
+    _, cont,hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE) #finds contours
     
     center=[]
     radii=[]
 
     for line in cont:
-
         temp=circle(line)
-        
         center.append(temp[0])
-        
         radii.append(temp[1])
     
     radii=np.array(radii)
-    #gets biggest circle
-    ind=np.argmax(radii)
+    ind=np.argmax(radii) #gets index of largest circle detected
 
     return center[ind],radii[ind]
 
@@ -137,16 +119,15 @@ def circle(cnt):
     Vars
     ---------------------------------------------------------
     cnt         |   inputted contour
+
     Returns
     ---------------------------------------------------------
     center      |   the center of the largest circle detected
     radii       |   the radiius of the largest circle detected    
     """ 
 
-    (x,y),radius = cv2.minEnclosingCircle(cnt)
-
+    (x,y),radius = cv2.minEnclosingCircle(cnt) 
     center = (int(x),int(y))
-
     radius = int(radius)
 
     return center, radius 
