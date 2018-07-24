@@ -1,3 +1,4 @@
+""" Dashboard function """
 from matplotlib import pyplot as plt
 from matplotlib import image as img
 from matplotlib import gridspec as grd
@@ -8,7 +9,12 @@ import cv2
 
 def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	'''
-	Display a dashboard containing plots that are relevant to the experiment.
+	Display a dashboard containing the following information throughout the experiment:
+	1: time trace of RGB values
+	2: image of reaction flask
+	3: position on color intensity bar
+	4: history of actual color
+	5: position on color wheel
 	
 	Parameters:
 	mean_RGB: 		array 	| mean RGB values for all images taken up to the current point in the experiment
@@ -49,7 +55,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	plt.ion()
 	plt.close('all')
 	
-	# construct a 3 X 6 grid and specify grids spanned by each subplot
+	# construct a 3 X 6 grid for plotting
 	gs =grd.GridSpec(3,6) 
 	lines = plt.subplot2grid((3,6),(0,0), colspan=2, rowspan =2)
 	beaker = plt.subplot2grid((3,6),(0,2), colspan=2, rowspan =2)
@@ -71,23 +77,19 @@ def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	colorbar.axis('off')
 	colorbar.set_title('Tracking through Intensity Space', fontsize = 8)
 	
-	# set attributes for beaker, lines, and squares plots
-	beaker.axis('off')
-	beaker.set_title('Latest Beaker Image', fontsize = 8)
-	lines.set_title('History of Mean RGB Values', fontsize = 8)
-	lines.set_xlabel('Iterations', fontsize = 8)
-	squares.axis('off')
-	squares.set_title('Mean Color in the Beaker over Time',fontsize = 8)
-	
 	# plot mean RGB values over the history of the experiment with error bars representing variances
 	line_colors = ['r','g','b'] 
 	for i, c in enumerate(line_colors):
 		lines.errorbar(range(len(mean_RGB)),mean_RGB[:,i],yerr=var_RGB[:,i],color=c)
+	lines.set_title('History of Mean RGB Values', fontsize = 8)
+	lines.set_xlabel('Iterations', fontsize = 8)
 	
 	# display latest image of the reaction flask
 	beaker.imshow(image_array, interpolation='nearest') # interpolation = 'nearest' ensures image is displayed accurately
+	beaker.axis('off')
+	beaker.set_title('Latest Beaker Image', fontsize = 8)
 	
-	# plot course through color and intensity spaces
+	# plot path through color and intensity spaces
 	t_val = []
 	r_val = []
 	v_val = []
@@ -103,12 +105,17 @@ def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	colorbar.plot(1-np.array(v_val),y_val,'y-')
 	colorbar.plot(1-v_val[-1],y_val[-1],'yo') # plot latest points as circles to show the latest position
 	
-	# divide squares subplot into horizontal segments based on the number of past mean colors to display and plot those colors
+	# display succession of colors over the course of the experiment
 	c_squares = mean_RGB/255 # rescale mean_RGB for the following plot
 	for i in range(1,len(mean_RGB)+1):
 		squares.plot([i-1+0.49,i-0.49], [0,0], '-', linewidth=100, c=c_squares[i-1])
+	squares.axis('off')
+	squares.set_title('Mean Color in the Beaker over Time',fontsize = 8)
 	
 	# display dashboard
 	plt.tight_layout() # ensure that plots don't overlap on the dashboard
 	plt.show()
 	plt.pause(0.05) # allows for the master script to run while the dashboard "waits" (pause) to be called again
+
+
+
