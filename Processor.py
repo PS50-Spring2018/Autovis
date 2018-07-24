@@ -9,14 +9,6 @@ import datetime
 from matplotlib import pyplot as plt
 
 
-"""
-variables: 
-   
-
-functionality: processsor is the class that contains all of the functions to execute the gather or images
-and the detection of images and the 
-
-"""
  
 
 class ImageCapture:
@@ -59,11 +51,6 @@ class ImageCapture:
         ---------------------------------------------------------
         creates folders, finds largest circle and manages time
 
-        Vars
-        ---------------------------------------------------------             
-
-        Returns
-        ---------------------------------------------------------    
         """ 
 
 		#creates directory
@@ -84,18 +71,15 @@ class ImageCapture:
         """ 
         Functionality 
         ---------------------------------------------------------
-        
+        Gets time  from datatime and also formats it 
 
-        Vars
-        ---------------------------------------------------------
-        
         Returns
         ---------------------------------------------------------
-          
+        getTime |     formatted string that returns current date and time
         """ 
 
 		#gets time
-		currentDT = datetime.datetime.now()
+		currentDT = datetime.datetime.now() 
 		#formats
 		time=currentDT.strftime('%Y%m%d%H%M%s')
 		
@@ -106,19 +90,16 @@ class ImageCapture:
         """ 
         Functionality 
         ---------------------------------------------------------
-        
-        Vars
-        ---------------------------------------------------------
+        runs one snap and analysis of an image 
        
         Returns
         ---------------------------------------------------------   
+        mean    | mean color in the circle detected by the image
+        var     | variance of color in the image
         """ 
 
 		
-		#add camera number as a user input
-
-		#change to 1 for functionality of the webcam 
-		#OPTIM: change here for more user options, will have to make this a user inputted variable
+		
 		initial_img = co.snap(0)
 
 		name= self.getTime()
@@ -191,9 +172,12 @@ class ImageCapture:
 
 		# Goes through image and appends pixels that are in circle
 		for row in range(mask.shape[0]):
+
 			for col in range(mask.shape[1]):
-				if not np.isnan(mask[row, col]).all():
-					img_nonzero.append(img[row, col])
+			
+            	if not np.isnan(mask[row, col]).all():
+			
+            		img_nonzero.append(img[row, col])
 
 		img_nonzero = np.array(img_nonzero)
 
@@ -227,12 +211,7 @@ class ImageCapture:
         """ 
         Functionality 
         ---------------------------------------------------------
-        
-        Vars
-        ---------------------------------------------------------
-       
-        Returns
-        ---------------------------------------------------------   
+        opens and writes to a csv containing mean and variance data in circuits
         """ 
 
         with open(folderwoID+'/summary_%s.csv' % (rxnID),'a+') as csvfile:

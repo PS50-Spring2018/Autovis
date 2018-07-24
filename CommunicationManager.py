@@ -16,12 +16,11 @@ def gettimestamp():
     """ 
     Functionality 
     ---------------------------------------------------------
+    gets list of images captured
     
-    Vars
-    ---------------------------------------------------------
-   
     Returns
-    ---------------------------------------------------------   
+    ---------------------------------------------------------
+    lst_of_TS  |    obtains list of timestamps from the directory, commpares to see if new files were added      
     """ 
 
 
