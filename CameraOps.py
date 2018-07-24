@@ -50,7 +50,7 @@ def snap(n=0):
 
     Vars
     ---------------------------------------------------------
-    n            |   number used to ID camera to be used
+    n       |   number used to ID camera to be used
    
     Returns
     ---------------------------------------------------------
