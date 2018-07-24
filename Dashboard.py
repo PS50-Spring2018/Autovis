@@ -5,6 +5,7 @@ import seaborn as sns
 import numpy as np
 import colorsys as cs
 import cv2
+
 def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	'''
 	Display a dashboard containing plots that are relevant to the experiment.
@@ -27,6 +28,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 			t.append(theta)
 			r.append(radius)
 			c.append(cs.hsv_to_rgb(theta/(2*np.pi),radius,1)) # use each point in polar space to specify a color in HSV space, then convert to RGB for plotting 
+	
 	x_dim = np.linspace(0,1,N)
 	y_dim = np.linspace(0,1,N) # x_dim and y_dim together specify every cartesian coordinate at which the intensity is specified
 	x = []
@@ -37,34 +39,42 @@ def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 			x.append(x_val)
 			y.append(y_val)
 			color.append(cs.hsv_to_rgb(0, 0, 1-x_val)) # use each point in cartesian space to specify a color intensity in HSV space, then rescale for a light-to-dark gradient
+	
 	plt.ion()
 	plt.close('all') # plt.ion() and plt.close('all') allow the function to be called repeatedly to update the dashboard in real time
+	
 	gs =grd.GridSpec(3,6) # construct 3 X 6 grid to customize subplots
 	lines = plt.subplot2grid((3,6),(0,0), colspan=2, rowspan =2)
 	beaker = plt.subplot2grid((3,6),(0,2), colspan=2, rowspan =2)
 	colorbar = plt.subplot2grid((3,6),(2,4), colspan=2)
 	squares = plt.subplot2grid((3,6),(2,0), colspan=4) # specify grid squares spanned by each subplot
 	colorwheel = plt.subplot2grid((3,6),(0,4), projection = 'polar', colspan=2, rowspan =2) # polar projection accomodates HSV-based color construction
+	
 	colorwheel.scatter(t, r, c=c, alpha=1.0) # plot color wheel; alpha = 1 ensures most accurate representation of colors
 	colorwheel.xaxis.set_visible(False)
 	colorwheel.yaxis.set_visible(False)
 	colorwheel.set_title('Tracking through Color Space', fontsize = 8)
 	colorwheel.axis('off')
+	
 	colorbar.scatter(x, y, c=color, alpha=1.0) # plot color intensity bar; alpha = 1 ensures most accurate representation of color intensities
 	colorbar.xaxis.set_visible(False)
 	colorbar.yaxis.set_visible(False)
 	colorbar.axis('off')
 	colorbar.set_title('Tracking through Intensity Space', fontsize = 8)
+	
 	beaker.axis('off')
 	beaker.set_title('Latest Beaker Image', fontsize = 8)
 	lines.set_title('History of Mean RGB Values', fontsize = 8)
 	lines.set_xlabel('Iterations', fontsize = 8)
 	squares.axis('off')
 	squares.set_title('Mean Color in the Beaker over Time',fontsize = 8)
+	
 	line_colors = ['r','g','b'] # plot mean RGB values over the history of the experiment with error bars representing variances
 	for i, c in enumerate(line_colors):
 		lines.errorbar(range(len(mean_RGB)),mean_RGB[:,i],yerr=var_RGB[:,i],color=c)
+	
 	beaker.imshow(image_array, interpolation='nearest') # display latest image of reaction flask; interpolation = 'nearest' ensures image is displayed accurately
+	
 	t_val = []
 	r_val = []
 	v_val = []
@@ -75,13 +85,16 @@ def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 		t_val.append(hsv[0]*2*np.pi)
 		r_val.append(hsv[1])
 		v_val.append(hsv[2]) # for each RGB triplet, rescale to 0-1 (for the cs.rgb_to_hsv function), convert to HSV (scaled 0-1), rescale theta to 0-2*pi (for polar plotting), and append to relevant lists
+	
 	colorwheel.plot(t_val,r_val, 'k-')
 	colorwheel.plot(t_val[-1],r_val[-1], 'ko')
 	colorbar.plot(1-np.array(v_val),y_val,'y-')
 	colorbar.plot(1-v_val[-1],y_val[-1],'yo') # plot course through color and intensity spaces; latest points are plotted as circles to show the latest position
+	
 	c_squares = mean_RGB/255 # rescale mean_RGB for the following plot
 	for i in range(1,len(mean_RGB)+1):
 		squares.plot([i-1+0.49,i-0.49], [0,0], '-', linewidth=100, c=c_squares[i-1]) # divide subplot into horizontal segments based on the number of past mean colors to display and plot those colors
+	
 	plt.tight_layout() # ensure that plots don't overlap on the dashboard
 	plt.show()
 	plt.pause(0.05) # allows for the master script to run while the dashboard "waits" (pause) to be called again
