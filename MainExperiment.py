@@ -2,31 +2,18 @@
 from ImageCapture import ImageCapture
 
 
-
-
-
-
-
-
-
-
-
 if __name__=='__main__':
 	""" 
     Starts the experiment side and gets user input for time, intervals and creates instances of analyzer function.
     
     Parameters used within: 
-		n: int 						| Camera number on computer (usually n=0 for built-in webcam).
-		dir_file: string 			| Directory of image files.
+		n: int 						| 	Camera number on computer (usually n=0 for built-in webcam).
+		dir_file: string 			| 	Directory of image files.
 		reaction_id: float/string 	|	Reaction identifer.
 		time: int 					|	The total time the user would like to take images and analyze for. 
-		interv: int 				| The interval between image captures.
+		interv: int 				|	The interval between image captures.
 
-    Notes: 
-    	This function needs to run first and from the computer taking the images. 
-		Exit video by clicking into video and pressing ESC key. 
-		We recommend that you use a directory that is facilitates more global collaborations (ie Dropbox, or other cloud based file sharing systems)
-      
+         
     """ 
 
 

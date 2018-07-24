@@ -4,12 +4,12 @@
 
 ### For taking images on the webcam, execute:
 
-`$ python Main.py`
+`$ python MainExperiment.py`
 
 The user will input the path to the Dropbox directory, reaction ID, duration of webcam, and image-taking frequency. 
 
 ### For initiating the communication manager, execute:
 
-`$ python CommunicationManager.py`
+`$ python MainAnalysis.py`
 
 The user will input the path to the Dropbox directory and reaction ID.
