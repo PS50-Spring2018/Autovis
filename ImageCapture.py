@@ -15,10 +15,10 @@ class ImageCapture:
 
     Parameters: 
         reaction_id: string | Reaction identifier. 
-        interv: float | Time between pictures being taken.
-        t: float| Total time of the experiment.
-        dir_file: string | The path of the destination of the picture files.
-        n: int | The camera number, usually 0 for built in camera and 1 for webcam.
+        interv: float       | Time between pictures being taken.
+        t: float            | Total time of the experiment.
+        dir_file: string    | The path of the destination of the picture files.
+        n: int              | The camera number, usually 0 for built in camera and 1 for webcam.
        
     Notes:
 
@@ -67,7 +67,7 @@ class ImageCapture:
 
         Returns: 
             mean: float | Mean of the RGB colors in the image
-            var: float | Variance of the RGB colors in the image
+            var: float  | Variance of the RGB colors in the image
 
         '''
 		initial_img = co.snap(self.n) #Gets raw image
@@ -273,9 +273,9 @@ class ImageCapture:
 
     Parameters: 
         rxnID: float/string | The reaction identifier. 
-        file: string | File name of the image being added to the csv
-        mean: float | Mean of the RGB values in the image. 
-        variance: float | Variance of the RGB values. 
+        file: string        | File name of the image being added to the csv
+        mean: float         | Mean of the RGB values in the image. 
+        variance: float     | Variance of the RGB values. 
         folderwoID:  string | The file path to the directory where images are being saved. 
     '''
         with open(folderwoID+'/summary_%s.csv' % (rxnID),'a+') as csvfile:
