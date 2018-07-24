@@ -1,5 +1,4 @@
-
-"""Script to start experiment. Takes in user input for data file path, reaction ID, duration, and interval."""
+""" Script to run experiment on the image acquisition computer """
 
 from ImageCapture import ImageCapture
 

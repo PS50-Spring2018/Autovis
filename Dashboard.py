@@ -9,11 +9,13 @@ import cv2
 def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	'''
 	Display a dashboard containing plots that are relevant to the experiment.
+	
 	Parameters:
 	mean_RGB: 		array 	| mean RGB values for all images taken up to the current point in the experiment
 	var_RGB: 		array 	| variances in RGB values for all images taken up to the current point in the experiment
 	image_array: 	array 	| latest image of the reaction flask
 	N: 				int 	| number of points used to construct the color wheel and color intensity bar
+	
 	Notes:
 	1: N > 200 is not recommended for most laptops.
 	2: mean_RGB and var_RGB can be properly formatted by appending mean RBGs and RGB variances to an empty list, then using np.array.

@@ -1,4 +1,4 @@
-
+""" Class for capturing images """
 import time
 import cv2
 import numpy as np
@@ -8,7 +8,7 @@ import os
 import datetime
 from matplotlib import pyplot as plt
 
-class ImageCapture:
+class ImageCapture(object):
     """
     ImageCapture is the class the contains of all of the functions required to gather images and 
     to identify shapes in the images. 
@@ -27,9 +27,9 @@ class ImageCapture:
         '''
         Initializes the ImageCapture class.
         '''
-		self.reaction_id=rxn_id
-		self.interv=interv
-		self.t  = time
+		self.reaction_id = rxn_id
+		self.interv = interv
+		self.t = time
 		self.dir_file = dir_file
 		self.rxn_foldername = os.path.join(self.dir_file, str(self.reaction_id))
         self.n = n
@@ -57,6 +57,7 @@ class ImageCapture:
 		time=currentDT.strftime('%Y%m%d%H%M%s') #formats the time 
 
 		return time
+
     '''
     *****SECOND COPY OF ITERATION 
     '''

@@ -8,57 +8,18 @@ import sys
 
 sys.path.append('../DataAnalysis') # creates a folder called DataAnalysis in the current directory
 
-<<<<<<< HEAD
-def gettimestamp():
-    """ 
-    Obtain list of images captured.
-    
-    Returns:
-    lst_of_TS: array | list of timestamps from the directory; compare these to check if new files were added      
-    """ 
-    lst_of_TS = []
-	for file in glob.glob("*.npy"): # access every .npy file in the current directory
-		name = file.split('.') 
-        timestamp_str = name[0] # grab the timestamp portion 
-        timestamp_int = int(timestamp_str) # convert the timestamp string into an integer
-        lst_of_TS.append(timestamp_int) # append to list of timestamps
-	lst_of_TS.sort() # sort the list of timestamps in increasing order
-	return lst_of_TS
-""" 
-    Functionality 
-    ---------------------------------------------------------
-    i) Asks user for reaction ID (corresponds to input to Webcam Interface)
-    ii) Changes working directory 
-    iii) initializes variables of means and variances 
-    iv) While loop is for continuous checking for new images
-    
-
-    Vars
-    ---------------------------------------------------------
-    path             |   user path
-    reaction_id      |   reaction id for different reactions
-    csvpath          |   path to csv statistics file 
-
-    Returns
-    ---------------------------------------------------------
-   
-=======
-
-
->>>>>>> b77d2360f5f1b232af457f0b2af5021b72d5ec7b
 """
+TO DO
 i) make class
 ii) initialize
 iii) run
 iv) class functions
 """
-class CommunicationManager:
 
+class CommunicationManager(object):
 
     def __init__(self):
-        
-
-
+        pass
 
     def initialize(self, path, reaction_id ):
         """ 
@@ -78,7 +39,7 @@ class CommunicationManager:
 
         Returns
         ---------------------------------------------------------
-       """
+        """
 
         self.path=path
         self.reaction_id=reaction_id
@@ -92,10 +53,9 @@ class CommunicationManager:
         print("Current working directory: %s" % dirpath)
 
         os.chdir(path)
+
         # Check current working directory.
-
         dirpath = os.getcwd()
-
 
         csvname = str('summary_' +  str(reaction_id) + ".csv")
         # create path to access csv for specific reaction
@@ -103,18 +63,14 @@ class CommunicationManager:
         # list of indices that have been worked with/sent to Data Analysis team
         self.lst_current_indices = [0] 
 
-
-        # list of R,G,B means
+        # lists of RGB means and variances
         self.means = [] 
-        # list of R,G,B variances
         self.variances = []
-
 
 
     def run(self):
 
         wait_once = 1
-        
         i = 0
         
         while i==0:
@@ -142,9 +98,7 @@ class CommunicationManager:
             except IndexError:
 
                 if wait_once:
-                
                     time.sleep(5)
-                
                     wait_once = 0
                
                 else:
