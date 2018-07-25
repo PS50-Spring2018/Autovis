@@ -19,15 +19,13 @@ if __name__=='__main__':
 
 	
 	dir_file = input("What is the file path?") #raw_input 
-
 	reaction_id=input("What is the reaction ID? ") #integer or string
-
 	time=int(float(input("How long would you like to analyze for (s)? "))) #minutes?
-	
 	interv=int(float(input("How often do you want to check(s)? ")))
+	n = int(float(input("Which camera number would you like to use? 0 is usually inbuilt camera")))
 
 	#constructor
-	p=ImageCapture(time,interv, reaction_id, dir_file)
+	p=ImageCapture(time,interv, reaction_id, dir_file,n)
 	#this function  runs all iterations of the processor class as defined by the tine and interval
 	p.run()
 	
