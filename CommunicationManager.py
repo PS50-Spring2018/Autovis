@@ -1,19 +1,51 @@
-
-"""Script for communication manager."""
-
-import os # operating systmem interface
-import glob # accesses the global directory
+import os # operating system interface
+import glob # access the global directory
 import numpy as np # work with arrays, list, list images as arrays, etc.
-import csv # read the csv file
-import time # later call the kernel to sleep using time.sleep
-from Dashboard import dashboard # Data Analysis dashboard plot function
+import csv # read csv files
+import time # call the kernel to sleep using time.sleep
+from Dashboard import dashboard # data analysis dashboard function
 import sys
-#creates a datanalysis folder in the current directory
-sys.path.append('../DataAnalysis')
+
+sys.path.append('../DataAnalysis') # creates a folder called DataAnalysis in the current directory
+
+<<<<<<< HEAD
+def gettimestamp():
+    """ 
+    Obtain list of images captured.
+    
+    Returns:
+    lst_of_TS: array | list of timestamps from the directory; compare these to check if new files were added      
+    """ 
+    lst_of_TS = []
+	for file in glob.glob("*.npy"): # access every .npy file in the current directory
+		name = file.split('.') 
+        timestamp_str = name[0] # grab the timestamp portion 
+        timestamp_int = int(timestamp_str) # convert the timestamp string into an integer
+        lst_of_TS.append(timestamp_int) # append to list of timestamps
+	lst_of_TS.sort() # sort the list of timestamps in increasing order
+	return lst_of_TS
+""" 
+    Functionality 
+    ---------------------------------------------------------
+    i) Asks user for reaction ID (corresponds to input to Webcam Interface)
+    ii) Changes working directory 
+    iii) initializes variables of means and variances 
+    iv) While loop is for continuous checking for new images
+    
+
+    Vars
+    ---------------------------------------------------------
+    path             |   user path
+    reaction_id      |   reaction id for different reactions
+    csvpath          |   path to csv statistics file 
+
+    Returns
+    ---------------------------------------------------------
+   
+=======
 
 
-
-
+>>>>>>> b77d2360f5f1b232af457f0b2af5021b72d5ec7b
 """
 i) make class
 ii) initialize

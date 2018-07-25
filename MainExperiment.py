@@ -1,32 +1,37 @@
 
+"""Script to start experiment. Takes in user input for data file path, reaction ID, duration, and interval."""
+
 from ImageCapture import ImageCapture
 
 
 if __name__=='__main__':
-	""" 
-    Starts the experiment side and gets user input for time, intervals and creates instances of analyzer function.
-    
-    Parameters used within: 
-		n: int 						| 	Camera number on computer (usually n=0 for built-in webcam).
-		dir_file: string 			| 	Directory of image files.
-		reaction_id: float/string 	|	Reaction identifer.
-		time: int 					|	The total time the user would like to take images and analyze for. 
-		interv: int 				|	The interval between image captures.
+    """Runs experiment.
 
-         
+    Parameters:
+        dir_file      : string         |   Directory path to image files
+        reaction_id   : float/string   |   Reaction identifer
+        duration      : int            |   The total time the user would like to take images and analyze for
+        img_interval  : int            |   The interval between image captures
+        camera_number : int            |   The camera number, 0 for built-in camera and 1 for external webcam
     """ 
 
+    # File path to directory for placing image data
+    dir_file = input("Enter filepath to experiment directory : ")
 
-	
-	dir_file = input("What is the file path?") #raw_input 
-	reaction_id=input("What is the reaction ID? ") #integer or string
-	time=int(float(input("How long would you like to analyze for (s)? "))) #minutes?
-	interv=int(float(input("How often do you want to check(s)? ")))
-	n = int(float(input("Which camera number would you like to use? 0 is usually inbuilt camera")))
+    # Reaction ID (Note: this will become the name of the experiment directory)
+    reaction_id = input("Enter Reaction ID : ")
 
-	#constructor
-	p=ImageCapture(time,interv, reaction_id, dir_file,n)
-	#this function  runs all iterations of the processor class as defined by the tine and interval
-	p.run()
-	
+    # Duration of experiment, in seconds (time window to take images)
+    duration = int(input("Enter duration of experiment [s] : "))
     
+    # Time interval between images
+    img_interval = int(input("Enter interval between images : "))
+
+    # Type of camera (built-in camera or external webcam)
+    camera_number = int(input("Enter camera number (0 = built-in camera, 1 = external webcam) : "))
+
+    # Creates instance of ImageCapture event and runs experiment
+    img_expt = ImageCapture(duration, img_interval, reaction_id, dir_file, camera_number)
+    img_expt.run()
+    
+>>>>>>> cfa3f159813d0ca540cd47907a8df5afc1a0b570
