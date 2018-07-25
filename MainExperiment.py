@@ -34,4 +34,4 @@ if __name__=='__main__':
     img_expt = ImageCapture(duration, img_interval, reaction_id, dir_file, camera_number)
     img_expt.run()
     
->>>>>>> cfa3f159813d0ca540cd47907a8df5afc1a0b570
+

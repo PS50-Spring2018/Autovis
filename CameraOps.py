@@ -55,8 +55,8 @@ def detect(self, initial_img):
     radii=np.array(radii)
     ind=np.argmax(radii) #gets index of largest circle detected
 
-    return center[ind],radii[ind]
-
+    return center[ind] , radii[ind]
+ 
 
 def circle(cnt):  
     '''

@@ -42,11 +42,7 @@ def gettimestamp():
     Returns
     ---------------------------------------------------------
    
-=======
 
-
->>>>>>> b77d2360f5f1b232af457f0b2af5021b72d5ec7b
-"""
 i) make class
 ii) initialize
 iii) run

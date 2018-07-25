@@ -6,6 +6,7 @@ import CameraOps as co
 import csv as csv
 import os
 import datetime
+import uuid
 from matplotlib import pyplot as plt
 
 class ImageCapture:
@@ -51,12 +52,12 @@ class ImageCapture:
 			time: string | The time formatted YearMonthDayHourMinuteSecond, Ex: 20180721065911
 		'''
 		currentDT = datetime.datetime.now() #gets the current date and time
-		time=currentDT.strftime('%Y%m%d%H%M%s') #formats the time 
-
+		#time=currentDT.strftime('%Y%m%d%H%M%s') #formats the time 
+		time=str(uuid.uuid4())#for PCs/santi's computer
 		return time
-	'''
-	*****SECOND COPY OF ITERATION 
-	'''
+	
+
+
 	def ObtainImage(self):
 		'''
 		Captures a single image, locally save the image, detects a beaker, and calculates color statistics
@@ -68,16 +69,26 @@ class ImageCapture:
 		'''
 		initial_img = co.snap(self.n) 
 		name= self.getTime() #write raw image to a file
-		cv2.imwrite("frame%s.jpg" % name, initial_img)  #reads back that image in the correct format
-		img = cv2.imread("frame%s.jpg" % name) #reads in image to cv2 for shape detecting
+		direct=os.getcwd()
+
+		cv2.imwrite("%sframe%s.jpg" % (direct,name), initial_img)  #reads back that image in the correct format
+		img = cv2.imread("%sframe%s.jpg" % (direct,name)) 
+		
+
+		#reads in image to cv2 for shape detecting
 		#img = img[:,:,::-1] # Change BGR to RGB format - Tim - Testing
 		#print('***img',img[:2,:2,:])
-		
 		#detects the beaker location and size, adjusts size
-		center, radius = co.detect(co, img)
+	
+		
+		cv2.imshow('image',img)
+		cv2.waitKey(0)
+		cv2.destroyAllWindows()
+
+		center, radius = co.detect(self,img)
 		radius = radius - int(0.1*radius)
 
-		return name, img,center, radius
+		return name, img, center, radius
 
 	def iteration(self):
 		name, img, center, radius = self.ObtainImage()
@@ -95,19 +106,22 @@ class ImageCapture:
 
 		#this is used to detect boundaries and ensure that there is no out of bounds exceptions
 		#this creates a mask to not include values outside of the circle 
-		for i in range(mask.shape[1]):
-			if center[1]-down > 0: 
-				down_valid = center[1]-down
-			else:
-				down_valid = 0
-			if mask.shape[1]<center[1]+up:
-				up_valid = center[1]+up
-			else:
-				up_valid = make.shape[1]
+		down=radius
+		up=radius
+
+		if center[1]-down > 0: 
+			down_valid = center[1]-down
+		else:
+			down_valid = 0
+		if mask.shape[1]<center[1]+up:
+			up_valid = center[1]+up
+		else:
+			up_valid = mask.shape[1]-1
 		
-		for i in arange(down_valid,up_valid):
+		for i in np.arange(down_valid,up_valid):
 			#left/right dimensions of the circle scan
-			delta=int(np.sqrt(int(radius)**2-int(i)**2))
+			
+			delta=int(np.sqrt(int(radius)**2-int(i-center[1])**2))
 			
 		
 			left=center[0]-delta
@@ -118,7 +132,7 @@ class ImageCapture:
 			if mask.shape[0]<center[0]+right:
 				right_valid = center[0]+right
 			else:
-				right_valid = mask.shape[0]
+				right_valid = mask.shape[0]-1
 			
 			if center[0]-left > 0: 
 				left_valid = center[0]-left
@@ -126,7 +140,7 @@ class ImageCapture:
 				left_valid = 0
 
 
-				'''
+				"""
 				TESTING
 				right=-center[0]+mask.shape[0]-1
 				if 0>center[0]-left:
@@ -138,8 +152,8 @@ class ImageCapture:
 				
 				pythagorean
 				delta=int(np.sqrt(int(radius)**2-int(i)**2))
-				'''
-			x=np.arange(left_valid,right_valid)
+				"""
+			x=np.arange(left_valid,right_valid-1)
 
 			print(x)
 			#mask[x,(center[1]-up),:] = np.nan
