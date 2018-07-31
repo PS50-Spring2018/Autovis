@@ -20,5 +20,3 @@ if __name__=='__main__':
     manager = CommunicationManager(dir_file, reaction_id)
     manager.initialize()
     manager.run()
-
-
