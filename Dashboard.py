@@ -24,10 +24,11 @@ def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	
 	Notes:
 	1: N > 200 is not recommended for most laptops.
-	2: mean_RGB and var_RGB can be properly formatted by appending mean RBGs and RGB variances to an empty list, then using np.array.
+	2: mean_RGB and var_RGB can be properly formatted by appending mean RBGs and RGB variances to an empty list, then using np.array
 	'''
 
-	# specify a color for each point in HSV space, then convert to RGB for plotting
+	# construct a 2-dimensional polar space wherein each point is a color (hue and saturation) in HSV space
+	# then convert each point to RGB for plotting
 	radii = np.linspace(0,1,N) 
 	thetas = np.linspace(0,2*np.pi,N)
 	t = [] 
@@ -39,7 +40,8 @@ def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 			r.append(radius)
 			c.append(cs.hsv_to_rgb(theta/(2*np.pi),radius,1)) # all HSV inputs must be 0-1
 	
-	# specify a color intensity for each x-coordinate in HSV space, then convert to RGB for plotting
+	# construct a 2-dimensional Cartesian space wherein each x-coordinate is a color intensity (value) in HSV space
+	# then convert to RGB for plotting
 	x_dim = np.linspace(0,1,N)
 	y_dim = np.linspace(0,1,N)
 	x = []
@@ -95,7 +97,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	v_val = []
 	y_val = np.linspace(0,1,len(mean_RGB))
 	for color in mean_RGB:
-		r, g, b = color[0]/255, color[1]/255, color[2]/255 # rescale RGB values to 0-1 to convert to HSV
+		r, g, b = color[0]/255, color[1]/255, color[2]/255 # all RGB values must be 0-1
 		hsv = cs.rgb_to_hsv(r,g,b)
 		t_val.append(hsv[0]*2*np.pi) # rescale 0-2*pi for polar plotting
 		r_val.append(hsv[1])
