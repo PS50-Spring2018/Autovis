@@ -1,4 +1,5 @@
 """ Class for capturing images """
+
 import time
 import cv2
 import numpy as np
@@ -7,6 +8,7 @@ import csv as csv
 import os
 import datetime
 from matplotlib import pyplot as plt
+
 
 class ImageCapture(object):
     """

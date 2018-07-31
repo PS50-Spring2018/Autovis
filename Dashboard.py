@@ -1,4 +1,5 @@
-""" Dashboard function """
+""" Dashboard function for plotting """
+
 from matplotlib import pyplot as plt
 from matplotlib import image as img
 from matplotlib import gridspec as grd
@@ -6,6 +7,7 @@ import seaborn as sns
 import numpy as np
 import colorsys as cs
 import cv2
+
 
 def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	'''
@@ -62,7 +64,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	colorbar = plt.subplot2grid((3,6),(2,4), colspan=2)
 	squares = plt.subplot2grid((3,6),(2,0), colspan=4)
 	colorwheel = plt.subplot2grid((3,6),(0,4), projection = 'polar', colspan=2, rowspan =2) # polar projection for HSV-based color construction
-	
+
 	# plot color wheel
 	colorwheel.scatter(t, r, c=c, alpha=1.0) # alpha = 1 ensures accurate representation of colors
 	colorwheel.xaxis.set_visible(False)
@@ -76,7 +78,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	colorbar.yaxis.set_visible(False)
 	colorbar.axis('off')
 	colorbar.set_title('Tracking through Intensity Space', fontsize = 8)
-	
+
 	# plot mean RGB values over the history of the experiment with error bars representing variances
 	line_colors = ['r','g','b'] 
 	for i, c in enumerate(line_colors):
@@ -114,6 +116,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N = 100):
 	
 	# display dashboard
 	plt.tight_layout() # ensure that plots don't overlap on the dashboard
+	plt.savefig('TEST.png')
 	plt.show()
 	plt.pause(0.05) # allows for the master script to run while the dashboard "waits" (pause) to be called again
 

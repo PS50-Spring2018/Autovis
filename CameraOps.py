@@ -1,3 +1,4 @@
+""" Utilities for image capture and processing derived from the OpenCV module """
 
 import time
 import cv2
