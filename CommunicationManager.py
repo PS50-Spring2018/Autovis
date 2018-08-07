@@ -1,207 +1,135 @@
-import os # operating system interface
-import glob # access the global directory
-import numpy as np # work with arrays, list, list images as arrays, etc.
-import csv # read csv files
-import time # call the kernel to sleep using time.sleep
-from Dashboard import dashboard # data analysis dashboard function
+""" Class for handling communication with data acquisition, data analysis and output """
+
+import os
 import sys
-
-sys.path.append('../DataAnalysis') # creates a folder called DataAnalysis in the current directory
-
-<<<<<<< HEAD
-def gettimestamp():
-    """ 
-    Obtain list of images captured.
-    
-    Returns:
-    lst_of_TS: array | list of timestamps from the directory; compare these to check if new files were added      
-    """ 
-    lst_of_TS = []
-	for file in glob.glob("*.npy"): # access every .npy file in the current directory
-		name = file.split('.') 
-        timestamp_str = name[0] # grab the timestamp portion 
-        timestamp_int = int(timestamp_str) # convert the timestamp string into an integer
-        lst_of_TS.append(timestamp_int) # append to list of timestamps
-	lst_of_TS.sort() # sort the list of timestamps in increasing order
-	return lst_of_TS
-""" 
-    Functionality 
-    ---------------------------------------------------------
-    i) Asks user for reaction ID (corresponds to input to Webcam Interface)
-    ii) Changes working directory 
-    iii) initializes variables of means and variances 
-    iv) While loop is for continuous checking for new images
-    
-
-    Vars
-    ---------------------------------------------------------
-    path             |   user path
-    reaction_id      |   reaction id for different reactions
-    csvpath          |   path to csv statistics file 
-
-    Returns
-    ---------------------------------------------------------
-   
-
-i) make class
-ii) initialize
-iii) run
-iv) class functions
-"""
-class CommunicationManager:
+import time
+import glob
+import csv
+import numpy as np
+import cv2
+from Dashboard import dashboard
 
 
-    def __init__(self):
-        
+class CommunicationManager(object):
+	'''
+	Class for handling communication with data acquisition, data analysis and output.
+
+	Parameters:
+			dir_file: string      | Directory containing image data
+			rxd_id: string or int | Reaction ID
+	'''
+
+	def __init__(self, dir_file, rxn_id):
+		'''
+		Initializes the CommunicationManager class.
+		'''
+		self.dir_file = dir_file
+		self.reaction_id = rxn_id
+
+		self.csvname = 'summary_{}.csv'.format(rxn_id) #name of experiment summary file
+		self.processed_indices = [0] # list of image indices that have been processed
+		self.means = [] # list of RGB means
+		self.variances = [] # list of RGB variances
+
+
+	def initialize(self):
+		'''
+		Change to image directory.
+		'''
+		path_data = os.path.join(self.dir_file, self.reaction_id)
+		os.chdir(path_data)
 
 
 
-    def initialize(self, path, reaction_id ):
-        """ 
-        Functionality 
-        ---------------------------------------------------------
-        i) Asks user for reaction ID (corresponds to input to Webcam Interface)
-        ii) Changes working directory 
-        iii) initializes variables of means and variances 
-        iv) While loop is for continuous checking for new images
-        
+	def run(self):
+		'''
+		Runs analysis loop: continuously checks for new images, loads them and plots dashboard.
+		Exit analysis loop with ctrl-c.
+		'''
+		
+		# Structure to exit analysis loop with ctrl-c
+		try:
+			# Continuously check for new images
+			while True:
 
-        Vars
-        ---------------------------------------------------------
-        path             |   user path
-        reaction_id      |   reaction id for different reactions
-        csvpath          |   path to csv statistics file 
+				# Try loading data and plotting dashboard
+				try:
+					# Load data from current image
+					mean_array, var_array, image_array = self.load_data()
 
-        Returns
-        ---------------------------------------------------------
-       """
+					# Append to mean and variance list for all images
+					self.means.append(mean_array)
+					self.variances.append(var_array)
 
-        self.path=path
-        self.reaction_id=reaction_id
-        # Change to directory
-        path = input("Input the path to the image directory: ")
-        # by default, user input is a string
-        reaction_id  = input("Input the reaction ID: ")
+					# Plot dashboard
+					dashboard(np.array(self.means), np.array(self.variances), image_array) 
+				   	
+				   	# Update which images have been processes
+					self.processed_indices.append(self.processed_indices[-1]+1) 
 
-        dirpath = os.getcwd()
+					# Pause to wait for new images to be collected
+					time.sleep(2.)
+				
+				# If we ran out of images: pause to wait for new images
+				except IndexError:
+					print('Waiting for new images...')
+					time.sleep(5)
 
-        print("Current working directory: %s" % dirpath)
-
-        os.chdir(path)
-        # Check current working directory.
-
-        dirpath = os.getcwd()
-
-
-        csvname = str('summary_' +  str(reaction_id) + ".csv")
-        # create path to access csv for specific reaction
-        csvpath = os.path.join(dirpath, csvname) 
-        # list of indices that have been worked with/sent to Data Analysis team
-        self.lst_current_indices = [0] 
+		except KeyboardInterrupt:
+			print('\nCommunicationManager closed by user')
+			pass
 
 
-        # list of R,G,B means
-        self.means = [] 
-        # list of R,G,B variances
-        self.variances = []
+	def load_data(self):
+		'''
+		Loads data from image and summary files.
+
+		Returns:
+			mean_array: array  | RGB value means of current image
+			var_array: array   | RGB value variances of current image
+			image_array: array | Current image in array format
+		'''
+
+		# Get current time stamps
+		timestamps = self.gettimestamp()   
+
+		# Load the next image         
+		last_img_index = self.processed_indices[-1]
+		image_array = np.load('{}.npy'.format(timestamps[last_img_index]))
+
+		# Load data from summary csv file
+		#csvfile = open(self.csvname, 'r')
+		with open(self.csvname, 'r') as csvfile:
+			reader = csv.reader(csvfile)
+			my_csv_data = list(reader)      
+		#csvfile.close()
+		data = my_csv_data[last_img_index] # grabs the mean & variance data of the current image
+
+		# Create arrays of RGB value means and variances
+		mean_array = [float(data[1]), float(data[2]), float(data[3])] 
+		var_array = [float(data[4]), float(data[5]), float(data[6])]
+
+		return mean_array, var_array, image_array
 
 
+	def gettimestamp(self):
+		''' 
+		Creates list of timestamps of files in the directory. 
+		'''
+		
+		timestamps = []
 
-    def run(self):
+		for file in glob.glob("*.npy"): # "for every .npy file in the current directory "
+			name = file.split('.') 
+			# grab the timestamp portion 
+			timestamp_str = name[0] 
+			# convert the timestamp string into an integer
+			timestamp_int = int(timestamp_str) 
+			# append to list of timestamps
+			timestamps.append(timestamp_int) 
 
-        wait_once = 1
-        
-        i = 0
-        
-        while i==0:
+		# sorts the timestamps in increasing order
+		timestamps.sort() 
 
-           try:
-                last_img_index, tempMean, tempVar = self.stats()
-
-                self.means.append(mean_array)
-                self.variances.append(var_array)
-
-                print('means_temp:', tempMean)
-                # plot the information on the dashboard
-                dashboard(tempMean, tempVar, image_array) 
-               
-                lst_current_indices.append(last_img_index+1) 
-
-                # Data analysis plot function(output) updates the dashboard
-                time.sleep(2.)
-
-        except IndexError:
-
-                # Data analysis plot function(output) updates the dashboard
-                time.sleep(2.)
-            
-            except IndexError:
-
-                if wait_once:
-                
-                    time.sleep(5)
-                
-                    wait_once = 0
-               
-                else:
-                    # HACK TO NOT HAVE JOB TERMINATE
-                    time.sleep(5)
-                
-                    pass
-                    # print("No more images are being added. Terminating job.")
-                    # exit()
-
-            # exit()
-
-            # # Testing by Tim - JUST PAUSES PROCESSOR FOR 20s
-            # time.sleep(20)
-            # break
-
-
-    def stats():
-
-        # dashboard() - initialize dashboard
-        lst_of_TS = self.gettimestamp()            
-        last_img_index = lst_current_indices[-1]
-        image_array = np.load(str(lst_of_TS[last_img_index])+ '.npy')
-        csvfile = open(csvpath, 'r')
-        reader = csv.reader(csvfile)
-        my_csv_data = list(reader)
-        data = my_csv_data[last_img_index] # grabs the mean & variance data of the current image        
-        csvfile.close()
-
-        mean_array = [float(data[1]), float(data[2]), float(data[3])] # create array of mean RGB values
-        var_array = [float(data[4]), float(data[5]), float(data[6])]  # create array of variance of RGB values
-
-        return last_img_index, mean_array, var_array
-        # Format data for Data Analysis dashboard function 
-
-
-    def gettimestamp(self):
-        """ 
-        Functionality 
-        ---------------------------------------------------------
-        gets list of images captured
-        
-        Returns
-        ---------------------------------------------------------
-        lst_of_TS  |    obtains list of timestamps from the directory, commpares to see if new files were added      
-        """ 
-    	
-        lst_of_TS = []
-
-    	for file in glob.glob("*.npy"): # "for every .npy file in the current directory "
-
-    		name = file.split('.') 
-    		# grab the timestamp portion 
-            timestamp_str = name[0] 
-    		# convert the timestamp string into an integer
-            timestamp_int = int(timestamp_str) 
-            # append to list of timestamps
-            lst_of_TS.append(timestamp_int) 
-        # sorts the list of timestamps in increasing order
-    	
-        lst_of_TS.sort() 
-
-    	return lst_of_TS
+		return timestamps
 

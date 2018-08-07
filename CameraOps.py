@@ -1,3 +1,4 @@
+""" Utilities for image capture and processing derived from the OpenCV module """
 
 import time
 import cv2
@@ -51,11 +52,14 @@ def detect(self, initial_img):
         temp=circle(line)
         center.append(temp[0])
         radii.append(temp[1])
-    
+     
     radii=np.array(radii)
-    ind=np.argmax(radii) #gets index of largest circle detected
-
-    return center[ind] , radii[ind]
+    try:
+        ind=np.argmax(radii) #gets index of largest circle detected
+        return center[ind] , radii[ind]
+    except ValueError:
+        print(".............Warning: No Circle Detected.............")
+    
  
 
 def circle(cnt):  

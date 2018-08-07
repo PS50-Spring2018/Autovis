@@ -1,27 +1,22 @@
-### TO DO!
+""" Script to run data analysis and plotting on the analysis computer """
 
-
-
-from Processor import processor
+from CommunicationManager import CommunicationManager
 
 
 if __name__=='__main__':
-	""" 
-    Starts the experiment side and gets user input for time, intervals and creates instances of analyzer function.
-    
-    Parameters used within: 
-		n: int 						| 	Camera number on computer (usually n=0 for built-in webcam).
-		 
+    """Runs data analysis and plotting.
+
+    Parameters:
+        ...
     """ 
-	dir_file = input("What is the file path?") #raw_input 
 
-	reaction_id=input("What is the reaction ID? ") #integer or string
+    # File path to image data
+    dir_file = input("Enter filepath to experiment directory : ")
 
-	time=int(float(input("How long would you like to analyze for (s)? "))) #minutes?
-	
-	interv=int(float(input("How often do you want to check(s)? ")))
+    # Reaction ID (Note: this is the name of the experiment directory)
+    reaction_id = input("Enter Reaction ID : ")
 
-	#constructor
-	p=ImageCapture(time,interv, reaction_id, dir_file)
-	#this function  runs all iterations of the processor class as defined by the tine and interval
-	p.run()
+    # Creates instance of CommunicationManager class and runs analysis
+    manager = CommunicationManager(dir_file, reaction_id)
+    manager.initialize()
+    manager.run()
