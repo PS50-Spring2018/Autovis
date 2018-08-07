@@ -1,4 +1,5 @@
 
+
 import time
 import cv2
 import numpy as np
@@ -111,59 +112,6 @@ class ImageCapture:
 		#Sets the extreme bounds of the circle
 		#this is used to detect boundaries and ensure that there is no out of bounds exceptions
 		#this creates a mask to not include values outside of the circle 
-		down=radius
-		up=radius
-
-		if center[1]-down > 0: 
-			down_valid = center[1]-down
-		else:
-			down_valid = 0
-		if mask.shape[1]<=center[1]+up:
-			up_valid = center[1]+up
-		else:
-			up_valid = mask.shape[1]-1
-		
-		for i in np.arange(down_valid,up_valid):
-			#left/right dimensions of the circle scan
-			
-			delta=int(np.sqrt(int(radius)**2-int(i-center[1])**2))
-			
-		
-			left=center[0]-delta
-			right=center[0]+delta
-			up=i
-			down=i
-
-			if mask.shape[0]<=center[0]+right:
-				right_valid = center[0]+right
-			else:
-				right_valid = mask.shape[0]-1
-			
-			if center[0]-left > 0: 
-				left_valid = center[0]-left
-			else:
-				left_valid = 0
-				"""
-				TESTING
-				right=-center[0]+mask.shape[0]-1
-				if 0>center[0]-left:
-					left=center[0]
-				if mask.shape[1]<center[1]+down:
-					down=-center[1]+mask.shape[1]-1
-				if 0>center[1]-up:
-					up=center[1]
-				
-				pythagorean
-				delta=int(np.sqrt(int(radius)**2-int(i)**2))
-				"""
-			print(right_valid, left_valid, down_valid, up_valid)
-			x=np.arange(left_valid,right_valid-1)
-
-			print(x)
-			#mask[x,(center[1]-up),:] = np.nan
-			#mask[i,x,:] = np.nan
-			mask[x,i,:] = [1,1,1]
-			#mask[x,(center[1]+down),:] = np.nan
 		
 
 		down=min(img.shape[0],center[1]+radius)
@@ -242,5 +190,3 @@ class ImageCapture:
 			swriter = csv.writer(csvfile)
 			swriter.writerow([file, mean[0],mean[1],mean[2], variance[0],variance[1],variance[2]])
 
-
-	
