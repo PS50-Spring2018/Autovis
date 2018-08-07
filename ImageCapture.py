@@ -1,5 +1,4 @@
 
-
 import time
 import cv2
 import numpy as np
@@ -14,7 +13,6 @@ class ImageCapture:
 	"""
 	ImageCapture is the class the contains of all of the functions required to gather images and 
 	to identify shapes in the images. 
-
 	Parameters: 
 		reaction_id:    string  | Reaction identifier. 
 		interv:         float   | Time between pictures being taken.
@@ -23,7 +21,6 @@ class ImageCapture:
 		n:              int     | The camera number, usually 0 for built in camera and 1 for webcam.
 	   
 	Notes:
-
 	"""
 	def __init__(self, time, interv,rxn_id, dir_file, n):
 		self.reaction_id=rxn_id
@@ -48,7 +45,6 @@ class ImageCapture:
 	def getTime(self):
 		'''
 		Gets the current time and saves it as an unique string
-
 		Returns: 
 			time: string | The time formatted YearMonthDayHourMinuteSecond, Ex: 20180721065911
 		'''
@@ -62,11 +58,9 @@ class ImageCapture:
 	def ObtainImage(self):
 		'''
 		Captures a single image, locally save the image, detects a beaker, and calculates color statistics
-
 		Returns: 
 			mean: array | Mean of the RGB colors in the image
 			var: array  | Variance of the RGB colors in the image
-
 		'''
 		initial_img = co.snap(self.n) 
 		name= self.getTime() #write raw image to a file
@@ -96,7 +90,7 @@ class ImageCapture:
 
 		# Draw circle into image
 		circle=cv2.circle(img,center,radius,(0,255,0),2)
-		circle = circle[:,:,::-1] #Change BGR to RGB format - Tim
+		#circle = circle[:,:,::-1] #Change BGR to RGB format - Tim
 		np.save(self.rxn_foldername+"/%s.npy" % (name),circle)
 		img = img[:,:,::-1] #Change BGR to RGB format - Tim
 
@@ -114,17 +108,17 @@ class ImageCapture:
 		#this creates a mask to not include values outside of the circle 
 		
 
-		down=min(img.shape[0],center[1]+radius)
-		up=max(center[1]-radius,0)
+		down=min(img.shape[0],center[0]+radius)
+		up=max(center[0]-radius,0)
+
 		#print(down,up)
 		for i in np.arange(up,down):
-			deltax=int(np.sqrt(np.abs(int(radius)**2-int(i-center[1])**2)))
-			print(deltax)
+			deltax=int(np.sqrt(np.abs(int(radius)**2-int(i-center[0])**2)))
 			left=center[0]-deltax
 			right=center[0]+deltax
 			#print("y: " + str(i) + " left: " + str(max(left,0)) + " right: "+ str(min(right,int(img.shape[0]))))
 			left=max(left,0)
-			right=min(right,int(img.shape[0]))
+			right=min(right,int(img.shape[1]))
 			x=np.arange(left,right)
 			mask[x,i,:]=1
 
@@ -146,14 +140,13 @@ class ImageCapture:
 				#Detects where in the mask nan values are present sorts it
 				
 				if int(mask[row,col,:].any()) == 1:
-					print(mask[row,col,:])
 					img_nonzero.append(img[row, col])
 
 		img_nonzero = np.array(img_nonzero)
 	
 		#Checks that image size is preserved 
-		print('***shape of image:', img.shape)
-		print('***shape of img_nonzero:', img_nonzero.shape)
+		#print('***shape of image:', img.shape)
+		#print('***shape of img_nonzero:', img_nonzero.shape)
 
 		# # Goes through image and appends pixels that are in circle...TESTING
 		# img_nonzero = []
@@ -178,7 +171,6 @@ class ImageCapture:
 	def save(self,rxnID, file, mean, variance, folderwoID):
 		'''
 		Saves csv file and writes statistics to it. 
-
 		Parameters: 
 			rxnID: float/string | The reaction identifier. 
 			file: string        | File name of the image being added to the csv
