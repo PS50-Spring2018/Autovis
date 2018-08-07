@@ -113,7 +113,7 @@ class ImageCapture:
 			down_valid = center[1]-down
 		else:
 			down_valid = 0
-		if mask.shape[1]<center[1]+up:
+		if mask.shape[1]<=center[1]+up:
 			up_valid = center[1]+up
 		else:
 			up_valid = mask.shape[1]-1
@@ -129,7 +129,7 @@ class ImageCapture:
 			up=i
 			down=i
 
-			if mask.shape[0]<center[0]+right:
+			if mask.shape[0]<=center[0]+right:
 				right_valid = center[0]+right
 			else:
 				right_valid = mask.shape[0]-1
@@ -138,8 +138,6 @@ class ImageCapture:
 				left_valid = center[0]-left
 			else:
 				left_valid = 0
-
-
 				"""
 				TESTING
 				right=-center[0]+mask.shape[0]-1
@@ -153,6 +151,7 @@ class ImageCapture:
 				pythagorean
 				delta=int(np.sqrt(int(radius)**2-int(i)**2))
 				"""
+			print(right_valid, left_valid, down_valid, up_valid)
 			x=np.arange(left_valid,right_valid-1)
 
 			print(x)
