@@ -108,15 +108,15 @@ class ImageCapture:
 		#this creates a mask to not include values outside of the circle 
 		
 
-		down=min(img.shape[0],center[0]+radius)
-		up=max(center[0]-radius,0)
+		down=min(img.shape[0],center[1]+radius)
+		up=max(center[1]-radius,0)
 
 		
 		print(up, down)
 		for i in np.arange(up,down):
 			#print(i)
 
-			deltax=int(np.sqrt(np.abs(int(radius)**2-int(i-center[0])**2)))
+			deltax=int(np.sqrt(np.abs(int(radius)**2-int(i-center[1])**2)))
 			#deltax=int(np.sqrt(np.abs(int(radius)**2-int(i-center[1])**2)))
 
 			left=center[0]-deltax
@@ -125,7 +125,7 @@ class ImageCapture:
 			left=max(left,0)
 			right=min(right,int(img.shape[1]))
 			x=np.arange(left,right)
-			mask[x,i,:]=1
+			mask[i,x,:]=1
 
 			
 		#Applies mask
