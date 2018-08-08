@@ -111,9 +111,14 @@ class ImageCapture:
 		down=min(img.shape[0],center[0]+radius)
 		up=max(center[0]-radius,0)
 
-		#print(down,up)
+		
+		print(up, down)
 		for i in np.arange(up,down):
+			#print(i)
+
 			deltax=int(np.sqrt(np.abs(int(radius)**2-int(i-center[0])**2)))
+			#deltax=int(np.sqrt(np.abs(int(radius)**2-int(i-center[1])**2)))
+
 			left=center[0]-deltax
 			right=center[0]+deltax
 			#print("y: " + str(i) + " left: " + str(max(left,0)) + " right: "+ str(min(right,int(img.shape[0]))))
@@ -124,8 +129,8 @@ class ImageCapture:
 
 			
 		#Applies mask
-		
-		#print(img.size, mask.size)
+
+
 		img_masked = np.multiply(img, mask)
 		cv2.imshow("mask",img_masked)
 		cv2.waitKey(0)
@@ -138,27 +143,12 @@ class ImageCapture:
 		for row in range(mask.shape[0]):
 			for col in range(mask.shape[1]):
 				#Detects where in the mask nan values are present sorts it
-				
 				if int(mask[row,col,:].any()) == 1:
 					img_nonzero.append(img[row, col])
 
 		img_nonzero = np.array(img_nonzero)
 	
-		#Checks that image size is preserved 
-		#print('***shape of image:', img.shape)
-		#print('***shape of img_nonzero:', img_nonzero.shape)
-
-		# # Goes through image and appends pixels that are in circle...TESTING
-		# img_nonzero = []
-		# for i in range(img.shape[0]):
-		#     for j in range(img.shape[1]):
-		#         if not all(img_masked[i,j]==[0,0,0]):
-		#             img_nonzero.append(img_masked[i,j])
-		# img_nonzero = np.array(img_nonzero)
-
-		#print('****************')
-		#print('img_nonzero', img_nonzero)
-		#Gathers statistics for data group from the masked image, saves to csv for controller group
+		
 		mean=[np.mean(img_nonzero[:,0]),np.mean(img_nonzero[:,1]),np.mean(img_nonzero[:,2])]
 		var=[np.std(img_nonzero[:,0]),np.std(img_nonzero[:,1]),np.std(img_nonzero[:,2])]
 
