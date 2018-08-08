@@ -49,8 +49,8 @@ class ImageCapture:
 			time: string | The time formatted YearMonthDayHourMinuteSecond, Ex: 20180721065911
 		'''
 		currentDT = datetime.datetime.now() #gets the current date and time
-		#time=currentDT.strftime('%Y%m%d%H%M%s') #formats the time 
-		time=str(uuid.uuid4())#for PCs/santi's computer
+		time=currentDT.strftime('%Y%m%d%H%M%s') #formats the time 
+		#time=str(uuid.uuid4())#for PCs/santi's computer
 		return time
 	
 
@@ -98,9 +98,9 @@ class ImageCapture:
 		mask=np.zeros((int(img.shape[0]),int(img.shape[1]),3))
 
 		
-		cv2.imshow("image",circle)
-		cv2.waitKey(0)
-		cv2.destroyAllWindows()
+		#cv2.imshow("image",circle)
+		#cv2.waitKey(0)
+		#cv2.destroyAllWindows()
 
 		
 		#Sets the extreme bounds of the circle
@@ -112,7 +112,7 @@ class ImageCapture:
 		up=max(center[1]-radius,0)
 
 		
-		print(up, down)
+		#print(up, down)
 		for i in np.arange(up,down):
 			#print(i)
 
@@ -132,9 +132,9 @@ class ImageCapture:
 
 
 		img_masked = np.multiply(img, mask)
-		cv2.imshow("mask",img_masked)
-		cv2.waitKey(0)
-		cv2.destroyAllWindows()
+		#cv2.imshow("mask",img_masked)
+		#cv2.waitKey(0)
+		#cv2.destroyAllWindows()
 
 
 		img_nonzero = []
