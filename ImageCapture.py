@@ -89,11 +89,11 @@ class ImageCapture:
 		name, img, center, radius = self.ObtainImage()
 
 		# Draw circle into image
+		#img = img[:,:,::-1]
 		circle=cv2.circle(img,center,radius,(0,255,0),2)
-		#circle = circle[:,:,::-1] #Change BGR to RGB format - Tim
+		circle = circle[:,:,::-1] #Change BGR to RGB format - Tim
+ 		#Change BGR to RGB format - Tim
 		np.save(self.rxn_foldername+"/%s.npy" % (name),circle)
-		img = img[:,:,::-1] #Change BGR to RGB format - Tim
-
 
 		mask=np.zeros((int(img.shape[0]),int(img.shape[1]),3))
 
