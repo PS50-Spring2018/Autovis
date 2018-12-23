@@ -41,7 +41,7 @@ class CommunicationManager(object):
 
 
 
-	def run(self):
+	def run_comms(self):
 		'''
 		Runs analysis loop: continuously checks for new images, loads them and plots dashboard.
 		Exit analysis loop with ctrl-c.
