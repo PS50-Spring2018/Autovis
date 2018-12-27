@@ -22,6 +22,10 @@ The user will input the path to the Dropbox directory and reaction ID.
 ### Dependencies and Versions Used
 - Python 3.5
 - OpenCV
+- numpy
+- matplotlib
+- seaborn
+- opencv-python
 
 
 ### Authors

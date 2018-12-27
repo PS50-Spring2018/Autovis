@@ -30,7 +30,7 @@ class ImageCapture:
 		self.rxn_foldername = os.path.join(self.dir_file, str(self.reaction_id))
 		self.n = n
 
-	def run_image(self):
+	def run(self):
 		'''
 		Creates the reaction directory, if it does not already exists, and starts the process to take images
 		for the set amount of time and iterations. 
@@ -42,23 +42,15 @@ class ImageCapture:
 			tempM,tempV=self.iteration() #runs a single image process
 			time.sleep(self.interv) #time intervals between trials
 			
-			#currentDT = datetime.datetime.now() #gets the current date and time
-			#time=currentDT.strftime('%Y%m%d%H%M%s') #formats the time 
-
 	def getTime(self):
 		'''
 		Gets the current time and saves it as an unique string
 		Returns: 
 			time: string | The time formatted YearMonthDayHourMinuteSecond, Ex: 20180721065911
-		
 		'''
 		currentDT = datetime.datetime.now() #gets the current date and time
 		time=currentDT.strftime('%Y%m%d%H%M%s') #formats the time 
-		#time="filler"
 		#time=str(uuid.uuid4())#for PCs/santi's computer
-
-		
-		
 		return time
 	
 
@@ -82,6 +74,8 @@ class ImageCapture:
 		#img = img[:,:,::-1] # Change BGR to RGB format - Tim - Testing
 		#print('***img',img[:2,:2,:])
 		#detects the beaker location and size, adjusts size
+	
+		
 		#cv2.imshow('image',img)
 		#cv2.waitKey(0)
 		#cv2.destroyAllWindows()
@@ -107,6 +101,8 @@ class ImageCapture:
 		#cv2.imshow("image",circle)
 		#cv2.waitKey(0)
 		#cv2.destroyAllWindows()
+
+		
 		#Sets the extreme bounds of the circle
 		#this is used to detect boundaries and ensure that there is no out of bounds exceptions
 		#this creates a mask to not include values outside of the circle 
