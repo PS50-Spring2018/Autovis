@@ -4,7 +4,7 @@ AutoVis is a tool for automating visualization of colored reactions.
 
 ## Usage
 
-In practice, two computers are needed, one for running the experiment (taking images using a built-in camera or an external webcam) and one for running the communication manager that detects the accumulation of image data and initiates the data analysis.
+In practice, two computers are needed, one for running the experiment (i.e. taking images using a built-in camera or an external webcam) and one for running the communication manager that detects the accumulation of image data and initiates the data analysis.
 
 ### For taking images on the webcam, execute:
 
@@ -18,7 +18,6 @@ The user will input the path to the Dropbox directory, reaction ID, duration of 
 
 The user will input the path to the Dropbox directory and reaction ID.
 
-
 ### Dependencies and Versions Used
 - Python 3.5
 - OpenCV
@@ -26,7 +25,6 @@ The user will input the path to the Dropbox directory and reaction ID.
 - matplotlib
 - seaborn
 - opencv-python
-
 
 ### Authors
 
