@@ -6,13 +6,13 @@ AutoVis is a tool for automating visualization of colored reactions.
 
 In practice, two computers are needed, one for running the experiment (i.e. taking images using a built-in camera or an external webcam) and one for running the communication manager that detects the accumulation of image data and initiates the data analysis.
 
-### For taking images on the webcam, execute:
+### Computer 1: For taking images on the webcam, execute:
 
 `$ python MainExperiment.py`
 
 The user will input the path to the Dropbox directory, reaction ID, duration of webcam, and image-taking frequency. 
 
-### For initiating the communication manager, execute:
+### Computer 2: For initiating the communication manager, execute:
 
 `$ python MainAnalysis.py`
 
