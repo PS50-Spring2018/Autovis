@@ -28,7 +28,7 @@ class ImageCapture:
         self.interv = interv
         self.t = time
         self.dir_file = dir_file
-        self.rxn_foldername = os.path.join(self.dir_file, str(self.rxn_id))
+        self.rxn_foldername = os.path.join(dir_file, str(rxn_id))
         self.n = n
 
     def run(self):
@@ -37,6 +37,7 @@ class ImageCapture:
         for the set amount of time and iterations.
         '''
         if not os.path.exists(self.rxn_foldername):
+
             os.makedirs(self.rxn_foldername)  # makes a reaction directory
 
         for i in range(int(self.t/self.interv)):
@@ -113,19 +114,12 @@ class ImageCapture:
         mean = [np.mean(img_nonzero[:, 0]), np.mean(img_nonzero[:, 1]), np.mean(img_nonzero[:, 2])]
         var = [np.std(img_nonzero[:, 0]), np.std(img_nonzero[:, 1]), np.std(img_nonzero[:, 2])]
         # file to save the output of the program
-        self.save(self.rxn_id, name, mean, var, self.rxn_foldername)
+
+        folder = self.rxn_foldername
+        
+        with open(folder+'/summary_%s.csv' % (self.rxnID), 'a+') as csvfile:
+            swriter = csv.writer(csvfile)
+            swriter.writerow([file, mean[0], mean[1], mean[2], var[0], var[1], var[2]])
+
         return mean, var
 
-    def save(self, rxnID, file, mean, variance, folderwoID):
-        '''
-    Saves csv file and writes statistics to it.
-    Parameters:
-    rxnID: float/string | The reaction identifier.
-    file: string        | File name of the image being added to the csv
-    mean: array         | Mean of the RGB values in the image.
-    variance: array     | Variance of the RGB values.
-    folderwoID:  string | The file path to the directory
-    '''
-    with open(folderwoID +'/summary_%s.csv' % (rxnID), 'a+') as csvfile:
-        swriter = csv.writer(csvfile)
-        swriter.writerow([file, mean[0], mean[1], mean[2], variance[0], variance[1], variance[2]])
