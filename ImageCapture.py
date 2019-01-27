@@ -52,8 +52,8 @@ class ImageCapture:
         time: string | The time formatted YearMonthDayHourMinuteSecond
         '''
         currentDT = datetime.datetime.now()  # gets the current date and time
-        time = currentDT.strftime('%Y%m%d%H%M%s')  # formats the time
-        # time=str(uuid.uuid4())#for PCs/santi's computer
+        # time = currentDT.strftime('%Y%m%d%H%M%s')  # formats the time
+        time=str(uuid.uuid4())#for PCs/santi's computer
         return time
 
     def ObtainImage(self):
@@ -117,9 +117,9 @@ class ImageCapture:
 
         folder = self.rxn_foldername
         
-        with open(folder+'/summary_%s.csv' % (self.rxnID), 'a+') as csvfile:
+        with open(folder+'/summary_%s.csv' % (self.rxn_id), 'a+') as csvfile:
             swriter = csv.writer(csvfile)
-            swriter.writerow([file, mean[0], mean[1], mean[2], var[0], var[1], var[2]])
+            swriter.writerow([name, mean[0], mean[1], mean[2], var[0], var[1], var[2]])
 
         return mean, var
 
