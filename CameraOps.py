@@ -30,7 +30,7 @@ def snap(n=0):
     return frame
 
 
-def detect(self, initial_img):
+def detect(initial_img):
     '''
     Thresholds image from webcam and fits contours
 

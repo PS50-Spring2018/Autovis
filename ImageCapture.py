@@ -51,9 +51,10 @@ class ImageCapture:
         Returns:
         time: string | The time formatted YearMonthDayHourMinuteSecond
         '''
+
         currentDT = datetime.datetime.now()  # gets the current date and time
-        # time = currentDT.strftime('%Y%m%d%H%M%s')  # formats the time
-        time=str(uuid.uuid4())#for PCs/santi's computer
+        time = currentDT.strftime("%Y%m%d%H%M%s")  # formats the time
+        #time=str(uuid.uuid4())#for PCs/santi's computer
         return time
 
     def ObtainImage(self):
