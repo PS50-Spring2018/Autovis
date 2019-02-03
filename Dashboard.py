@@ -50,6 +50,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N=100):
     x_dim = np.linspace(0, 1, N)
     y_dim = np.linspace(0, 1, N)
     y = []
+    x = []
     color = []
     for x_val in x_dim:
         for y_val in y_dim:
@@ -109,6 +110,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N=100):
         #  all RGB values must be 0-1
         r, g, b = color[0]/255, color[1]/255, color[2]/255
         hsv = cs.rgb_to_hsv(r, g, b)
+        hsv = np.array(hsv)
         #added to increase the effect of the change in color
         hsv *= 0.5
         #  rescale 0-2*pi for polar plotting
