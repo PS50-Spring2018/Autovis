@@ -3,7 +3,7 @@
 from matplotlib import pyplot as plt
 from matplotlib import image as img
 from matplotlib import gridspec as grd
-import seaborn as sns
+#import seaborn as sns
 import numpy as np
 import colorsys as cs
 import cv2
@@ -101,7 +101,8 @@ def dashboard(mean_RGB, var_RGB, image_array, N=100):
 
     # display latest image of the reaction flask
     # interpolation = 'nearest' ensures image is displayed accurately
-    beaker.imshow(image_array, interpolation='nearest')
+    image_array_edit = cv2.cvtColor(image_array, cv2.COLOR_BGR2RGB)
+    beaker.imshow(image_array_edit, interpolation='nearest')
     beaker.axis('off')
     beaker.set_title('Latest Beaker Image', fontsize=8)
 
@@ -112,7 +113,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N=100):
     y_val = np.linspace(0, 1, len(mean_RGB))
     for color in mean_RGB:
         #  all RGB values must be 0-1
-        r, g, b = color[0]/255, color[1]/255, color[2]/255
+        r, g , b = color[2]/255, color[0]/255, color[1]/255
         hsv = cs.rgb_to_hsv(r, g, b)
         hsv = np.array(hsv)
         #added to increase the effect of the change in color
