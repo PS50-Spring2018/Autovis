@@ -120,7 +120,7 @@ class ImageCapture:
 
         with open(folder+'/summary_%s.csv' % (self.rxn_id), 'a+') as csvfile:
             swriter = csv.writer(csvfile)
-            swriter.writerow([name, mean[0], mean[1], mean[2], var[0], var[1], var[2]])
+            swriter.writerow([name, mean[2], mean[1], mean[0], var[2], var[1], var[0]])
 
         return mean, var
 
