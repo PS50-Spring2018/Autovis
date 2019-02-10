@@ -88,6 +88,10 @@ def dashboard(mean_RGB, var_RGB, image_array, N=100):
     colorbar.axis('off')
     colorbar.set_title('Tracking through Intensity Space', fontsize=8)
 
+    # temp = mean_RGB[0]
+    # mean_RGB[0] = mean_RGB[2]
+    # mean_RGB[2] = temp
+
     # plot mean RGB values over time with error bars of variances
     line_colors = ['r', 'g', 'b']
     for i, c in enumerate(line_colors):
