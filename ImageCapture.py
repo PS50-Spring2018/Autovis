@@ -51,9 +51,10 @@ class ImageCapture:
         Returns:
         time: string | The time formatted YearMonthDayHourMinuteSecond
         '''
+
         currentDT = datetime.datetime.now()  # gets the current date and time
-        # time = currentDT.strftime('%Y%m%d%H%M%s')  # formats the time
-        time=str(uuid.uuid4())#for PCs/santi's computer
+        time = currentDT.strftime("%Y%m%d%H%M%s")  # formats the time
+        #time=str(uuid.uuid4())#for PCs/santi's computer
         return time
 
     def ObtainImage(self):
@@ -72,7 +73,7 @@ class ImageCapture:
         cv2.imwrite('%sframe%s.jpg' % (direct, name), initial_img)
         img = plt.imread('%sframe%s.jpg' % (direct, name))
 
-        center, radius = co.detect(self, img)
+        center, radius = co.detect(img)
         radius = radius - int(0.1*radius)
 
         return name, img, center, radius
@@ -116,8 +117,8 @@ class ImageCapture:
         # file to save the output of the program
 
         folder = self.rxn_foldername
-        
-        with open(folder+'/summary_%s.csv' % (self.rxn_ID), 'a+') as csvfile:
+
+        with open(folder+'/summary_%s.csv' % (self.rxn_id), 'a+') as csvfile:
             swriter = csv.writer(csvfile)
             swriter.writerow([name, mean[0], mean[1], mean[2], var[0], var[1], var[2]])
 

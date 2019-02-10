@@ -50,6 +50,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N=100):
     x_dim = np.linspace(0, 1, N)
     y_dim = np.linspace(0, 1, N)
     y = []
+    x = []
     color = []
     for x_val in x_dim:
         for y_val in y_dim:
@@ -90,7 +91,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N=100):
     # plot mean RGB values over time with error bars of variances
     line_colors = ['r', 'g', 'b']
     for i, c in enumerate(line_colors):
-        lines.errorbar(range(len(mean_RGB)), mean_RGB[:, i], yerr=var_RGB[:, i], color=c)
+        lines.errorbar(range(len(mean_RGB)), mean_RGB[:, i], yerr=np.sqrt(var_RGB[:, i]), color=c)
     lines.set_title('History of Mean RGB Values', fontsize=8)
     lines.set_xlabel('Iterations', fontsize=8)
 
@@ -109,6 +110,9 @@ def dashboard(mean_RGB, var_RGB, image_array, N=100):
         #  all RGB values must be 0-1
         r, g, b = color[0]/255, color[1]/255, color[2]/255
         hsv = cs.rgb_to_hsv(r, g, b)
+        hsv = np.array(hsv)
+        #added to increase the effect of the change in color
+        hsv *= 0.5
         #  rescale 0-2*pi for polar plotting
         t_val.append(hsv[0]*2*np.pi)
         r_val.append(hsv[1])
