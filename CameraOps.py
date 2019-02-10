@@ -5,6 +5,7 @@ import cv2
 import numpy as np
 
 
+
 def snap(n=0):
     '''
     Snaps an instant of the webcam and displays

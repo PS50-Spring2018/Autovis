@@ -70,7 +70,7 @@ class ImageCapture:
         direct = os.getcwd()
         # reads back that image in the correct format
         cv2.imwrite('%sframe%s.jpg' % (direct, name), initial_img)
-        img = cv2.imread('%sframe%s.jpg' % (direct, name))
+        img = plt.imread('%sframe%s.jpg' % (direct, name))
 
         center, radius = co.detect(self, img)
         radius = radius - int(0.1*radius)
@@ -117,11 +117,7 @@ class ImageCapture:
 
         folder = self.rxn_foldername
         
-<<<<<<< HEAD
         with open(folder+'/summary_%s.csv' % (self.rxn_ID), 'a+') as csvfile:
-=======
-        with open(folder+'/summary_%s.csv' % (self.rxn_id), 'a+') as csvfile:
->>>>>>> f1960cc5afababe6ae4c16311a3a3d3d2ed7634c
             swriter = csv.writer(csvfile)
             swriter.writerow([name, mean[0], mean[1], mean[2], var[0], var[1], var[2]])
 
