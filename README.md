@@ -1,3 +1,5 @@
+![Project Components](ps50algo.png)
+
 # Project AutoVis: Automatic Visualization via Webcam
 
 AutoVis is a tool for automating visualization of colored reactions.
