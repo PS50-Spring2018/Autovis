@@ -1,4 +1,4 @@
-![Project Components](ps50algo.PNG)
+
 
 # Project AutoVis: Automatic Visualization via Webcam
 
@@ -27,6 +27,8 @@ The user will input the path to the Dropbox directory and reaction ID.
 - matplotlib
 - seaborn
 - opencv-python
+
+![Project Components](ps50algo.PNG)
 
 ### Authors
 
