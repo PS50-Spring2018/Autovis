@@ -1,4 +1,4 @@
-![Project Components](ps50algo.png)
+![Project Components](ps50algo.PNG)
 
 # Project AutoVis: Automatic Visualization via Webcam
 
