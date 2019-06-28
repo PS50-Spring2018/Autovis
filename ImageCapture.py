@@ -1,3 +1,5 @@
+""" Class for taking webcam images and storing image statistics """
+
 import time
 import cv2
 import numpy as np
@@ -10,12 +12,11 @@ from matplotlib import pyplot as plt
 
 
 class ImageCapture:
-
     """
-    ImageCapture is the class the contains the fxns required to take images and
+    ImageCapture is the class the contains the functions required to take images and
     to identify shapes in the images.
     Parameters:
-        rxn_id:    string  | Reaction identifier.
+        rxn_id:         string  | Reaction identifier.
         interv:         float   | Time between pictures being taken.
         t:              float   | Total time of the experiment.
         dir_file:       string  | The path of new picture files.
@@ -83,7 +84,6 @@ class ImageCapture:
         # Draw circle into image
         circle = cv2.circle(img, center, radius, (0, 255, 0), 2)
         circle = circle[:, :, ::-1]  # Change BGR to RGB format
-        # Change BGR to RGB format
         np.save(self.rxn_foldername+"/%s.npy" % (name), circle)
         mask = np.zeros((int(img.shape[0]), int(img.shape[1]), 3))
         # Sets the extreme bounds of the circle
@@ -94,7 +94,6 @@ class ImageCapture:
 
         for i in np.arange(up, down):
             deltax = int(np.sqrt(np.abs(int(radius)**2-int(i-center[1])**2)))
-            # deltax=int(np.sqrt(np.abs(int(radius)**2-int(i-center[1])**2)))
             left = center[0]-deltax
             right = center[0]+deltax
             left = max(left, 0)
@@ -114,8 +113,8 @@ class ImageCapture:
         img_nonzero = np.array(img_nonzero)
         mean = [np.mean(img_nonzero[:, 0]), np.mean(img_nonzero[:, 1]), np.mean(img_nonzero[:, 2])]
         var = [np.std(img_nonzero[:, 0]), np.std(img_nonzero[:, 1]), np.std(img_nonzero[:, 2])]
+        
         # file to save the output of the program
-
         folder = self.rxn_foldername
 
         with open(folder+'/summary_%s.csv' % (self.rxn_id), 'a+') as csvfile:

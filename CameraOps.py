@@ -1,9 +1,8 @@
-""" Utilities for image capture and processing derived from the OpenCV"""
+""" Utilities for image capture and processing derived from the OpenCV package"""
 
 import time
 import cv2
 import numpy as np
-
 
 
 def snap(n=0):
@@ -47,7 +46,8 @@ def detect(initial_img):
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
     thresh = cv2.threshold(blur, 60, 255, cv2.THRESH_BINARY_INV)[1]
     # finds contours
-    _, cont, hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    cont, hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    # _, cont, hierarchy = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
     center = []
     radii = []

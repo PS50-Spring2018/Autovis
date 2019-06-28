@@ -1,4 +1,5 @@
 """ Class for  communication with acquisition, data analysis and output """
+
 import os
 import sys
 import time

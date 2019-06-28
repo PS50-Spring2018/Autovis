@@ -1,10 +1,10 @@
-""" Script to run experiment on the image acquisition computer """
+""" Script to run experiment on lab computer """
 
 from ImageCapture import ImageCapture
 
 
 if __name__ == '__main__':
-    """#
+    """
     Runs experiment.
 
     Parameters:
@@ -13,7 +13,6 @@ if __name__ == '__main__':
         duration    : int       | The total time of experiment
         img_interval: int       | The interval between image captures
         camera_num  : int       | 0 for built-in  and 1 for external
-    #
     """
 
     # File path to directory for placing image data
@@ -35,4 +34,6 @@ if __name__ == '__main__':
 
     # Creates instance of ImageCapture runs experiment
     img_expt = ImageCapture(dur, img_interval, rxn_id, dir_file, camera_num)
+    print('Running experiment...')
     img_expt.run()
+    print('Experiment finished!')
