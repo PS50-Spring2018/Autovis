@@ -27,6 +27,8 @@ The user will input the path to the Dropbox directory and reaction ID.
 - matplotlib
 - seaborn
 
+### Key functionalities
+
 ![Project Components](ps50algo.PNG)
 
 ### Authors
