@@ -20,17 +20,17 @@ The user will input the path to the Dropbox directory, reaction ID, duration of 
 
 The user will input the path to the Dropbox directory and reaction ID.
 
-### Dependencies and Versions Used
+## Dependencies and Versions Used
 - python 3.5
 - opencv-python
 - numpy
 - matplotlib
 - seaborn
 
-### Key functionalities
+## Key functionalities
 
 ![Project Components](ps50algo.PNG)
 
-### Authors
+## Authors
 
 AutoVis was written by Physical Sciences 50 (Spring 2018) at Harvard University. 
