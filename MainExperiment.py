@@ -24,7 +24,7 @@ if __name__ == '__main__':
     # reaction_id = raw_input("Enter Reaction ID : ")
 
     # Duration of experiment, in seconds
-    dur = int(input("Enter duration of experiment [s] : "))
+    dur = int(input("Enter duration of experiment (in s) : "))
 
     # Time interval between images
     img_interval = int(input("Enter interval between images : "))
