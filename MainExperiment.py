@@ -27,7 +27,7 @@ if __name__ == '__main__':
     dur = int(input("Enter duration of experiment [s] : "))
 
     # Time interval between images
-    img_interval = int(input("Enter interval between images : "))
+    img_interval = int(input("Enter interval between images [s]: "))
 
     # Type of camera (built-in or external)
     camera_num = int(input("Enter camera # (0 = built-in , 1 = external): "))
