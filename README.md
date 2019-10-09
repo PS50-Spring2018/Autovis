@@ -20,6 +20,18 @@ The user will input the path to the Dropbox directory, reaction ID, duration of 
 
 The user will input the path to the Dropbox directory and reaction ID.
 
+## Installation
+
+To install Autovis, the user needs to install the dependencies listed below. 
+
+- For `opencv-python`, we recommend installing via pip: `pip install opencv-python`. For installation on Windows, we recommend following the steps [here](https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_table_of_contents_setup/py_table_of_contents_setup.html).
+
+- For `numpy` and `matplotlib`, we recommend installing via pip: `python -m pip install --user numpy matplotlib`. For more detailed instructions, refer to this set of [instructions](https://www.scipy.org/install.html).
+
+- For `seaborn`, we recommend installing via pip: `pip install seaborn`.
+
+Coming soon: we will work on making Autovis pip-installable. 
+
 ## Dependencies and Versions Used
 - python 3.5
 - opencv-python 4.1.0.25
