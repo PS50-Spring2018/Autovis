@@ -52,20 +52,20 @@ class CommunicationManager(object):
                 # Try loading data and plotting dashboard
                 try:
                     # Load data from current image
-                    mean_array, var_array, im_arr = self.load_data()
+                    mean_array, var_array, im_arr, tstamps = self.load_data()
 
                     # Append to mean and variance list for all images
                     self.means.append(mean_array)
                     self.variances.append(var_array)
 
                     # Plot dashboard
-                    dashboard(np.array(self.means), np.array(self.variances), im_arr)
+                    dashboard(np.array(self.means), np.array(self.variances), im_arr, tstamps)
 
                     # Update which images have been processes
                     self.processed_indices.append(self.processed_indices[-1]+1)
 
                     # Pause to wait for new images to be collected
-                    time.sleep(2.)
+                    time.sleep(0.5)
 
                 # If we ran out of images: pause to wait for new images
                 except IndexError:
@@ -83,7 +83,8 @@ class CommunicationManager(object):
         Returns:
             mean_array: array  | RGB value means of current image
             var_array: array   | RGB value variances of current image
-            im_arr: array | Current image in array format
+            im_arr: array      | Current image in array format
+            timestamps: array  | Time stamps of data files in directory
         '''
 
         # Get current time stamps
@@ -105,7 +106,7 @@ class CommunicationManager(object):
         mean_array = [float(data[1]), float(data[2]), float(data[3])]
         var_array = [float(data[4]), float(data[5]), float(data[6])]
 
-        return mean_array, var_array, im_arr
+        return mean_array, var_array, im_arr, timestamps
 
     def gettimestamp(self):
         '''

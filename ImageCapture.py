@@ -55,7 +55,7 @@ class ImageCapture:
 
         currentDT = datetime.datetime.now()  # gets the current date and time
         time = currentDT.strftime("%Y%m%d%H%M%S")  # formats the time
-        #time=str(uuid.uuid4())#for PCs/santi's computer
+        #time=str(uuid.uuid4())#workaround for Windows
         return time
 
     def ObtainImage(self):

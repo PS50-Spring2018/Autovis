@@ -7,9 +7,10 @@ from matplotlib import gridspec as grd
 import numpy as np
 import colorsys as cs
 import cv2
+import datetime
 
 
-def dashboard(mean_RGB, var_RGB, image_array, N=100):
+def dashboard(mean_RGB, var_RGB, image_array, timestamps, N=100):
     '''
     #
     Display a dashboard containing the following information:
@@ -23,6 +24,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N=100):
     mean_RGB: 		array 	| mean RGB values for all images taken up
     var_RGB: 		array 	| variances in RGB values for all images taken
     image_array: 	array 	| latest image of the reaction flask
+    timestamps:     array   | Time stamps of data files in directory
     N: 				int 	| number of points used to construct the color wheel
 
     Notes:
@@ -93,11 +95,20 @@ def dashboard(mean_RGB, var_RGB, image_array, N=100):
     # mean_RGB[2] = temp
 
     # plot mean RGB values over time with error bars of variances
+    # DEFAULT: construct array of time stamps relative to first: default
+    tstamps_delta = [datetime.datetime.strptime(str(ts), "%Y%m%d%H%M%S") for ts in timestamps]
+    tstamps_delta = np.array([(ts - tstamps_delta[0]).total_seconds() for ts in tstamps_delta])
+    # # WORKAROUND FOR PREVIOUS DATA FORMAT: construct array of time stamps relative to first
+    # tstamps_delta = np.array([int(str(ts)[12:]) for ts in timestamps])
+    # tstamps_delta = tstamps_delta - tstamps_delta[0]
+    # plot traces
     line_colors = ['r', 'g', 'b']
     for i, c in enumerate(line_colors):
-        lines.errorbar(range(len(mean_RGB)), mean_RGB[:, i], yerr=np.sqrt(var_RGB[:, i]), color=c)
+        lines.errorbar(tstamps_delta[:len(mean_RGB)], mean_RGB[:, i], yerr=np.sqrt(var_RGB[:, i]), color=c)
+    lines.set_ylim(-5, 260) #fix pixel value around maximum range [0, 255]
     lines.set_title('History of Mean RGB Values', fontsize=8)
-    lines.set_xlabel('Iterations', fontsize=8)
+    lines.set_xlabel('Elapsed Time in s', fontsize=8)
+    lines.set_ylabel('RGB Component Value', fontsize=8)
 
     # display latest image of the reaction flask
     # interpolation = 'nearest' ensures image is displayed accurately
@@ -138,7 +149,7 @@ def dashboard(mean_RGB, var_RGB, image_array, N=100):
 
     # ensure that plots don't overlap on the dashboard
     plt.tight_layout()
-    plt.savefig('TEST.png')
+    plt.savefig('image_intensity_change_{}.png'.format(len(mean_RGB)))
     plt.show()
     # allows for the master script to run while the dashboard "waits"
     plt.pause(0.05)

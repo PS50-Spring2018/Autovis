@@ -16,15 +16,15 @@ if __name__ == '__main__':
     """
 
     # File path to directory for placing image data
-    dir_file = input("Enter filepath to experiment directory : ")
+    dir_file = input("Enter filepath to experiment directory: ")
     # dir_file = raw_input("Enter filepath to experiment directory : ")
 
     # Reaction ID, this will become the name of the experiment directory)
-    rxn_id = input("Enter Reaction ID : ")
+    rxn_id = input("Enter Reaction ID: ")
     # reaction_id = raw_input("Enter Reaction ID : ")
 
     # Duration of experiment, in seconds
-    dur = int(input("Enter duration of experiment (in s) : "))
+    dur = int(input("Enter duration of experiment (in s): "))
 
     # Time interval between images
     img_interval = int(input("Enter interval between images (in s): "))
